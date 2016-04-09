@@ -1,0 +1,401 @@
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{colortbl}
+
+\newcounter{todocounter}
+\setcounter{todocounter}{0}
+\newcounter{authcounter}
+\setcounter{authcounter}{0}
+%%% BEGIN Write TODO in File
+\def\getdefhelp#1->#2\endhelp{#2}
+\def\getdef#1#2{\edef#2{\expandafter\getdefhelp\meaning#1\endhelp}}
+\newwrite\TodoDatei
+\newwrite\AuthorDatei
+\openout\AuthorDatei=author.out
+\newcommand{\WriteTodo}[2]{%
+	\def\Cont{#2}
+	\getdef\Cont\Content
+	\edef\WriteIndex{%
+		\write\TodoDatei{\string\textcolor{#1}{\string\textbf{\Content}}\string\dotfill\string\pageref{todo:\thetodocounter}}}%
+	\WriteIndex}
+
+\newcommand{\WriteAuthor}[1]{%
+	\def\Cont{#1}
+	\getdef\Cont\Content
+	\edef\WriteAuth{\write\AuthorDatei{\Content\string\dotfill\string\ref{auth:\theauthcounter}}}
+	\WriteAuth}
+
+
+%%% END Write TODO in File
+
+% command \BibTeX
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}} 
+
+% day in journal: \journalday{date}{titel}{persons}{aktivity}
+\newcommand{\journalday}[4]{%
+\def\titleTmp{#2}
+\subsection*{#1\ifx\titleTmp\empty{}\else{: #2}\fi}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+	Anwesende: & #3\\
+	Vorgang: & #4
+\end{tabularx}
+\end{center}
+}
+
+% errorreport: \errorreport{date}{error}{reason}{solution}
+\newcommand{\errorreport}[4]{%
+\def\dateTmp{#1}
+\def\errorTmp{#2}
+\def\reasonTmp{#3}
+\def\solutionTmp{#4}
+\ifx\errorTmp\empty{}\else{%
+\subsection*{\ifx\dateTmp\empty{}\else{\hfill(#1)\\}\fi Problem: #2}%
+{\begin{center}%
+\vskip-1ex%
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+	Ursache: & \ifx\reasonTmp\empty{unbekannt}\else{#3}\fi\\
+	Lösung: & \ifx\solutionTmp\empty{unbekannt}\else{#4}\fi\\
+\end{tabularx}%
+\end{center}%
+}}\fi}
+
+% code: \code[textcolor]{backgroundcolor}{content}
+\newcommand{\code}[3][black]{%
+	\begin{flushleft}	
+		\ttfamily
+		\small
+		\fcolorbox{#1}{#2}{\textcolor{#1}{\shortstack[l]{#3}}}
+	\end{flushleft}
+}
+
+% code with white borderline
+\newcommand{\codeblank}[3][black]{%
+	\begin{flushleft}	
+		\ttfamily
+		\small
+		\fcolorbox{white}{#2}{\textcolor{#1}{\shortstack[l]{#3}}}
+	\end{flushleft}
+}
+
+% centered code: \centercode[textcolor]{backgroundcolor}{content}
+\newcommand{\centercode}[3][black]{%
+	\begin{center}	
+		\ttfamily
+		\small
+		\fcolorbox{#1}{#2}{\textcolor{#1}{\shortstack[l]{#3}}}
+	\end{center}
+}
+
+% centered code with white borderline
+\newcommand{\centercodeblank}[3][black]{%
+	\begin{center}	
+		\ttfamily
+		\small
+		\fcolorbox{white}{#2}{\textcolor{#1}{\shortstack[l]{#3}}}
+	\end{center}
+}
+
+
+% annotation in colored box: \annot[text- and bordercolor]{backgroudcolor}{contents}
+\newcommand{\annot}[3][black]{%
+	\begin{center}	
+		\fcolorbox{#1}{#2}{\textcolor{#1}{\shortstack[l]{\vspace*{1ex}\\\hspace*{.025\textwidth}\textbf{Anmerkung:}\\\hspace*{.05\textwidth}\parbox{.88\textwidth}{#3\vspace*{2ex}}\hspace*{.05\textwidth}}}}
+	\end{center}
+}
+
+% annotation in colored box: \annot[text- and bordercolor]{backgroudcolor}{contents}
+\newcommand{\hint}[3][black]{%
+\begin{figure}[!t]
+  \centering
+  \fcolorbox{#1}{#2}{
+    \begin{minipage}{.96\linewidth}
+      \hspace*{.025\linewidth}\parbox{.93\linewidth}{\textbf{Hinweis:}}\hspace*{.025\linewidth}\\
+      \hspace*{.05\linewidth }\parbox{.88\linewidth}{\vspace*{3ex}#3\vspace*{3ex}}\hspace*{.05\linewidth}
+    \end{minipage}
+  }
+\end{figure}
+}
+
+\newcommand{\colorparbox}[3][.985\textwidth]{%
+\begin{flushleft}
+\fcolorbox{black}{#2}{\parbox{#1}{#3}}
+\end{flushleft}
+}
+
+\newcounter{versionID}
+\newenvironment{versioning}[1][hpiblue4]{%
+\setcounter{versionID}{0}
+\begin{center}	
+	\tablefirsthead{%
+		\hline
+		\rowcolor{#1}
+		\parbox[c][2em][c]{\linewidth}{\centering\textbf{lfd. Nr.}} &
+		\parbox[c][2em][c]{\linewidth}{\centering\textbf{Bearbeiter}} & 
+		\parbox[c][2em][c]{\linewidth}{\centering\textbf{Änderungen}}\\
+		\hline}
+	\tablehead{%
+		\extrahead
+		\hline
+		\rowcolor{#1}
+		\parbox[c][2em][c]{\linewidth}{\centering\textbf{lfd. Nr.}} &
+		\parbox[c][2em][c]{\linewidth}{\centering\textbf{Bearbeiter}} & 
+		\parbox[c][2em][c]{\linewidth}{\centering\textbf{Änderungen}}\\
+		\hline}
+	\tabletail{%
+		\hline
+		\multicolumn{3}{|r|}{\cellcolor{hpiblue4}\small\sl Fortsetzung auf der nächsten Seite}\\
+		\hline}
+	\tablelasttail{}
+	\begin{supertabular}{|p{.1\linewidth}|p{.25\linewidth}|p{.5\linewidth}|}
+	}{%
+	\end{supertabular}
+\end{center}
+\newwrite\VersionDatei
+\openout\VersionDatei=theversion.aux
+\write\VersionDatei{\theversionID}
+\closeout\VersionDatei
+%\vfill
+}
+
+\newcommand{\version}[2]{%
+\parbox{\linewidth}{\centering\stepcounter{versionID}\theversionID} & 
+\parbox[t]{\linewidth}{\centering#1} &
+#2 \\\hline
+}
+
+\newcommand{\currentversion}[1][]{
+\def\test{#1}
+\def\drafttest{draft}
+\def\finaltest{final}
+\ifx\test\drafttest
+	\def\versiontext{(Entwurf)}
+\else
+	\ifx\test\finaltest
+		\def\versiontext{(Final)}
+	\else
+		\def\versiontext{}
+	\fi
+\fi
+\vskip.3cm
+\newread\DatenDatei
+\openin\DatenDatei=theversion.aux
+\ifeof\DatenDatei\def\curVers{---}\else\read\DatenDatei to \curVers\fi
+\closein\DatenDatei
+{\small Dokumentversion: \curVers{}\versiontext}}
+
+%% Acceptance Criterions
+\newenvironment{acceptance}[1][hpiblue4]{%
+\begin{center}	
+	\tablefirsthead{%
+		\hline
+		\multicolumn{2}{|l|}{\cellcolor{hpiblue3}\bfseries Abnahmekriterien:}\\
+		\hline}
+	\tablehead{%
+		\hline
+		\multicolumn{2}{|l|}{\cellcolor{hpiblue3}\bfseries Abnahmekriterien (Fortsetzung):}\\
+		\hline}
+	\tabletail{%
+		\multicolumn{2}{|r|}{\cellcolor{hpiblue4}\small\sl Fortsetzung auf der nächsten Seite}\\
+		\hline}
+	\tablelasttail{}
+	\begin{supertabular}{p{.23\linewidth}p{.7\linewidth}}
+	}{%
+	\end{supertabular}
+\end{center}
+\vfill
+}
+
+\newcommand{\criterion}[3]{%
+	& \\
+	\rowcolor{hpiblue4}Ausgangssitiation: & #1 \\
+	Ereignis: & #2 \\
+	Erwartetes Ergebnis: & #3 \\
+}
+
+\newcommand{\authindex}[1]{\expandafter\index{#1}}
+%% SecAuthor
+\newcommand{\secauthor}[2]{%
+\def\secChap{chapter}
+\def\secSect{section}
+\def\secSubs{subsection}
+\edef\refer{#1!Abschnitt \thesection}
+\def\sec{#2}
+\ifx\sec\secChap\edef\refer{#1!Kapitel \thechapter}\fi
+\ifx\sec\secSect\edef\refer{#1!Abschnitt \thesection}\fi
+\ifx\sec\secSubs\edef\refer{#1!Abschnitt \thesubsection}\fi
+\label{auth:\theauthcounter}
+\authindex{\refer}
+%In Datei schreiben
+%\WriteAuthor{#2}
+\stepcounter{authcounter}
+}
+
+%% Todo
+\newcommand{\todo}[2][normal]{%
+\def\test{#1}
+\def\hightest{high}
+\def\lowtest{low}
+%\def\normaltest{normal}
+\ifx\test\hightest
+	\def\prioritycolor{hpired}
+\else
+	\ifx\test\lowtest
+		\def\prioritycolor{hpiyellow}
+	\else
+		\def\prioritycolor{hpiorange}
+	\fi
+\fi
+\par{\raggedright
+	\color{\prioritycolor}TODO: #2
+	\label{todo:\thetodocounter}
+	\WriteTodo{\prioritycolor}{#2}
+	\stepcounter{todocounter}
+}\par
+}
+
+\newif\ifnotdone
+
+\newcommand{\readLine}[1]{%
+\ifeof#1
+	\def\tobedone{}
+	\notdonefalse
+\else
+	\read\TodoFileIn to \tobedone
+	\notdonetrue
+\fi
+\tobedone\par}
+
+\newcommand{\listtodo}{%
+\begin{flushleft}
+	\newread\TodoFileIn
+	\openin\TodoFileIn=todo.out
+	\loop
+		\readLine{\TodoFileIn}
+	\ifnotdone
+	\repeat
+	\closein\TodoFileIn
+	\immediate\openout\TodoDatei=todo.out
+\end{flushleft}
+}
+
+%%% XML-Command
+\newdimen\LineFeedDim
+\LineFeedDim = 1.5em
+\newdimen\LineFeed
+\newif\ifXMLintern
+
+\newcommand{\Tag}[4][black]{%
+\ifXMLintern\\\hskip\LineFeed\fi%
+\XMLinternfalse%
+\textcolor{#1}{<#2}%
+\def\paratest{#3}%
+\ifx\paratest\empty{}%
+\else{} #3%
+\fi%
+\global\advance\LineFeed by \LineFeedDim%
+\def\contenttest{#4}%
+\ifx\contenttest\empty%
+	\global\advance\LineFeed by -\LineFeedDim\textcolor{#1}{/>}%
+\else%
+\textcolor{#1}{>}\\\hskip\LineFeed#4\\%
+\global\advance\LineFeed by -\LineFeedDim\ifdim\LineFeed > 0em\hskip\LineFeed\fi\textcolor{#1}{</#2>}%
+\fi\XMLinterntrue%
+}
+
+%% <? ... ?> als Argument übergeben -> processing, comment, normal
+\def\proctest{processing}
+\def\commtest{comment}
+\def\normtest{normal}
+\newcommand{\LineTag}[4][normal]{%
+\ifXMLintern\\\hskip\LineFeed\fi%
+\XMLinternfalse%
+\def\argtest{#1}%
+<\ifx\argtest\proctest ?\else\ifx\argtest\commtest !-- \fi\fi#2%
+\def\partest{#3}%
+\ifx\partest\empty%
+\else{} %
+	#3%
+\fi%
+\def\contenttest{#4}%
+\ifx\contenttest\empty%
+\def\argtest{#1}%
+\ifx\argtest\proctest{} ?\else\ifx\argtest\commtest{} --\else/\fi\fi>%
+\else> #4 </#2>\fi\XMLinterntrue%
+}
+
+\newcommand{\EmptyTag}[1][]{%
+\ifXMLintern\\\hskip\LineFeed\fi#1\parbox[c][1ex][c]{1ex}{}\XMLinterntrue%
+}
+
+\newcommand{\NewLinePar}{%
+\\\hskip\LineFeed\hskip3em
+}
+
+\newcommand{\xml}[3][black]{%
+	\LineFeed=0em
+	\XMLinternfalse
+	\small
+	\fcolorbox{#1}{#2}{\ttfamily\shortstack[l]{#3}}
+}
+
+\newcommand{\soapmsg}[7][hpigray4]{%
+	{\centering
+	\begin{tabularx}{\linewidth}{|l|X|}
+		\hline
+		\cellcolor{#1}Kürzel & #2 \\
+		\hline
+		\cellcolor{#1}Consumer & #3 \\
+		\hline
+		\cellcolor{#1}Request Parameter & #4 \\
+		\hline
+		\cellcolor{#1}Response Parameter & #5 \\
+		\hline
+		\cellcolor{#1}Kurzbeschreibung & #6 \\
+		\hline%
+		\cellcolor{#1}Doppelter Request & #7 \\
+		\hline
+	\end{tabularx}
+	}
+}
+
+\newcommand{\myabstract}[2]{%
+	\def\germtest{#1}
+	\def\engltest{#2}
+	\ifx\germtest\empty
+		\ifx\engltest\empty
+		\else
+			\hbox{ }
+			\vfill
+		\fi
+	\else
+		\hbox{ }
+		\vfill
+  \fi
+	\ifx\germtest\empty\else
+  	\begin{quotation}
+  	\begin{center}\normalfont\sectfont\nobreak Kurzfassung\end{center}
+  	#1
+  	\end{quotation}
+  	\vskip1cm
+  \fi
+  \ifx\engltest\empty\else
+  	\begin{quotation}
+  	\begin{center}\normalfont\sectfont\nobreak Abstract\end{center}
+  	#2
+  	\end{quotation}
+	\fi
+	\ifx\germtest\empty
+		\ifx\engltest\empty
+		\else
+  		\vfill
+  		\vfill
+  		\clearpage
+		\fi
+	\else
+  	\vfill
+  	\vfill
+  	\clearpage
+  \fi
+}

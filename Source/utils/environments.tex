@@ -1,0 +1,13 @@
+% Eigene Umgebungen
+\newenvironment{otherenumi}[1]{%
+	\renewcommand*{\labelenumi}{#1}
+	\begin{enumerate}
+	}{%
+	\end{enumerate}
+	\renewcommand*{\labelenumi}{\alph{enumi})}}
+\newenvironment{otherenumii}[1]{%
+	\renewcommand*{\labelenumii}{#1}
+	\begin{enumerate}
+	}{%
+	\end{enumerate}
+	\renewcommand*{\labelenumi}{\alph{enumi})}}
