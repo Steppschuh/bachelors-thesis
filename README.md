@@ -2,4 +2,6 @@
 My Bachelor's Thesis in computer science, written at the [Hasso Plattner Institute](http://hpi.de/). **Work in progress**, don't waste your time reading this (yet).
 
 ### Accessing and transferring sensor data on Wearables in real-time
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse libero lectus, molestie nec nisi id, dapibus elementum sem. Maecenas finibus felis mi, consectetur facilisis nisl congue non. Nunc pretium molestie lacinia. Nulla pretium turpis vel metus scelerisque tempus.
+Wearable devices such as smartwatches or activity trackers with embedded sensors are capable of exchanging data with other connected devices. This data will often be transferred to the manufacturer or processed directly on a connected smartphone in order to provide user feedback based on the analyzed data. Almost every wearable device offers third-party developers a way to gain (at least partial) access to the gathered sensor data, allowing custom applications to process them. 
+
+In the course of this paper, I will evaluate the availability of APIs on different wearables and how likely they can be used to transfer and process sensor data in real-time. The suitability of current devices running proprietary operating systems created by Apple, Google, Jawbone and Microsoft will be classified. In addition, I will provide an in-depth look at possible implementations for real-time processing of sensor data from devices running Android Wear.

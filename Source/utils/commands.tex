@@ -2,6 +2,16 @@
 \usepackage{supertabular}
 \usepackage{colortbl}
 
+% TODO
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\newcommand{\frontmatter}{\pagenumbering{roman}}
+\newcommand{\mainmatter}{\pagenumbering{arabic}\setcounter{page}{1}}
+
 \newcounter{todocounter}
 \setcounter{todocounter}{0}
 \newcounter{authcounter}
@@ -232,29 +242,6 @@
 \stepcounter{authcounter}
 }
 
-%% Todo
-\newcommand{\todo}[2][normal]{%
-\def\test{#1}
-\def\hightest{high}
-\def\lowtest{low}
-%\def\normaltest{normal}
-\ifx\test\hightest
-	\def\prioritycolor{hpired}
-\else
-	\ifx\test\lowtest
-		\def\prioritycolor{hpiyellow}
-	\else
-		\def\prioritycolor{hpiorange}
-	\fi
-\fi
-\par{\raggedright
-	\color{\prioritycolor}TODO: #2
-	\label{todo:\thetodocounter}
-	\WriteTodo{\prioritycolor}{#2}
-	\stepcounter{todocounter}
-}\par
-}
-
 \newif\ifnotdone
 
 \newcommand{\readLine}[1]{%
@@ -266,19 +253,6 @@
 	\notdonetrue
 \fi
 \tobedone\par}
-
-\newcommand{\listtodo}{%
-\begin{flushleft}
-	\newread\TodoFileIn
-	\openin\TodoFileIn=todo.out
-	\loop
-		\readLine{\TodoFileIn}
-	\ifnotdone
-	\repeat
-	\closein\TodoFileIn
-	\immediate\openout\TodoDatei=todo.out
-\end{flushleft}
-}
 
 %%% XML-Command
 \newdimen\LineFeedDim
@@ -370,8 +344,8 @@
 			\vfill
 		\fi
 	\else
-		\hbox{ }
-		\vfill
+		%\hbox{ }
+		%\vfill
   \fi
 	\ifx\germtest\empty\else
   	\begin{quotation}
@@ -379,6 +353,7 @@
   	#1
   	\end{quotation}
   	\vskip1cm
+  	\clearpage
   \fi
   \ifx\engltest\empty\else
   	\begin{quotation}

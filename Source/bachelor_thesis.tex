@@ -1,18 +1,6 @@
-\documentclass[%
-a4paper,
-DIV12, 
-2.5headlines, 
-bigheadings, 
-titlepage, 
-openbib,
-%draft
-]{scrartcl}
+\documentclass[a4paper, DIV12, 2.5headlines, bigheadings, titlepage, openbib]{scrartcl}
 
-%%% PACKAGES
 \usepackage[ngerman, english]{babel}
-%% FONTS
-
-
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
 \usepackage[utf8x]{inputenc}
@@ -31,100 +19,63 @@ openbib,
 \usepackage{makeidx}
 \usepackage{tabularx}
 \usepackage{floatflt}
+\usepackage{lipsum}
+\usepackage{xargs}
+\usepackage{enumitem}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage[pdftex, colorlinks, linktocpage, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
 \usepackage[linesnumbered]{algorithm2e}
+
 \pagestyle{scrheadings}
 
-
-\geometry{a4paper, top=55mm, left=40mm, right=35mm, bottom=40mm,
-headsep=10mm, footskip=22mm}
+\geometry{a4paper, top=55mm, left=40mm, right=35mm, bottom=40mm, headsep=10mm, footskip=22mm}
 \linespread {1.25}
-%%% COMMANDS
 
-	%%%%%%%%%%%%%%%%%%
-	% Autor eintragen 
-	\newcommand{\theauthor}{Stephan Schultz}
-	%%%%%%%%%%%%%%%%%%
-	% Matrikelnummer eintragen 
-	\newcommand{\matrnr}{766872}
-	%%%%%%%%%%%%%%%%%%
-	% Titel eintragen 
-	\newcommand{\thetitle}{Accessing and transferring sensor data on Wearables in real-time}
-	\newcommand{\thesubtitle}{Zugriff und Übertragung von Sensor Daten auf Wearables in Echtzeit}
+\newcommand{\theauthor}{Stephan Schultz}
+\newcommand{\matrnr}{766872}
+\newcommand{\thetitle}{Accessing and transferring sensor data on Wearables in real-time}
+\newcommand{\thesubtitle}{Zugriff und Übertragung von Sensor Daten auf Wearables in Echtzeit}
 
-%%% COLORS
 \input{utils/hpicolors}
-
-%%% OTHER INPUTS
 \input{utils/commands}
 \input{utils/environments}
-\newcommand{\frontmatter}{\pagenumbering{roman}}
-\newcommand{\mainmatter}{\pagenumbering{arabic}\setcounter{page}{1}}
-%%% INCLUDE ONLY
+
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{0.25cm}
-%%% DOCUMENT
+
 \begin{document}
-	%%% HEADER AND FOOTTITLES
-	%\selectlanguage{ngerman}
-	\selectlanguage{english} % {ngerman}
+
+	%%% Headers & Footers
+	\selectlanguage{english}
 	\automark{section}
 	\ohead{\includegraphics[height=1.3cm,clip,viewport={0 60 250 180}]{utils/hpi_logo.pdf}}
 	\chead{}
 	\ihead{\headmark}
 	\setheadsepline{1.0pt}[\color{hpigrey}]
-	%%% TITLEPAGE
+
+	%%% Title page
 	\hypersetup{%
 		pdftitle	= {\thetitle},
 		pdfsubject	= {Bachelor Thesis},
 		pdfauthor	= {\theauthor},
 		pdfcreator	= {PDFLaTeX},
 		pdfproducer	= {LaTeX with hyperref and thumbpdf}
-			   }
-	
-	\input{titlepage_english}
-	%\input{titlepage_german}
-		
-		
-		
-		
-	\section*{Disclaimer}
-
-I certify that the material contained in this dissertation is my own work and does not contain significant portions of unreferenced or unacknowledged material. I also warrant that the above statement applies to the implementation of the project and all associated documentation.\\\\
-Hiermit versichere ich, dass diese Arbeit selbst\"{a}ndig verfasst wurde und dass keine anderen Quellen und Hilfsmittel als die angegebenen benutzt wurden. Diese Aussage trifft auch f\"{u}r alle Implementierungen und Dokumentationen im Rahmen dieses Projektes zu.
-
-	\begin{flushleft}
-	Potsdam, \today
-	\end{flushleft}
-	\begin{picture}(150,70)
-		\put(0,15){\line(1,0){150}}
-		\put(0,0){(\theauthor)}
-	\end{picture}
-	\clearpage
-	
-	%%% Abstract
-	\myabstract{%
-	% deutsche Zusammenfassung
-	deutsche Zusammenfassung...
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
-
-Integer vitae neque odio, a sollicitudin lorem. Aenean orci mauris, tristique luctus fermentum eu, feugiat vel massa. Fusce sem sem, egestas nec vulputate vel, pretium sit amet mi. Fusce ut nisl id risus facilisis euismod. Curabitur et elementum purus. Duis tincidunt fringilla eleifend. Morbi id lorem eu ante adipiscing feugiat. Sed congue erat in enim eleifend dignissim at in nisl. Donec tortor mauris, mollis vel pretium vitae, lacinia nec sapien. Donec erat neque, ullamcorper tincidunt iaculis sit amet, pharetra bibendum ipsum. Nunc mattis risus ac ante consequat nec pulvinar neque molestie. Etiam interdum nunc at metus lacinia non varius erat dignissim. Integer elementum, felis id facilisis vulputate, ipsum tellus venenatis dui, at blandit nibh massa in dolor. Cras a ultricies sapien. Vivamus adipiscing feugiat pharetra.
-	}{%
-	% englischer abstract
-	English Abstract
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
-
-Integer vitae neque odio, a sollicitudin lorem. Aenean orci mauris, tristique luctus fermentum eu, feugiat vel massa. Fusce sem sem, egestas nec vulputate vel, pretium sit amet mi. Fusce ut nisl id risus facilisis euismod. Curabitur et elementum purus. Duis tincidunt fringilla eleifend. Morbi id lorem eu ante adipiscing feugiat. Sed congue erat in enim eleifend dignissim at in nisl. Donec tortor mauris, mollis vel pretium vitae, lacinia nec sapien. Donec erat neque, ullamcorper tincidunt iaculis sit amet, pharetra bibendum ipsum. Nunc mattis risus ac ante consequat nec pulvinar neque molestie. Etiam interdum nunc at metus lacinia non varius erat dignissim. Integer elementum, felis id facilisis vulputate, ipsum tellus venenatis dui, at blandit nibh massa in dolor. Cras a ultricies sapien. Vivamus adipiscing feugiat pharetra.
 	}
 	
+	\input{titlepage_english}
+	
+	%%% Disclaimer
+	\input{disclaimer.tex}
+	
+	%%% Abstract
+	\input{abstract.tex}
+
 	%%% TOC
 	\tableofcontents
 	\clearpage
-	%%% INCLUDES
-	\mainmatter
 
-	%%%%%%%
-	%% Add content here !!! %%%
+	\mainmatter
+	%% Content
 	\input{content/introduction.tex}
 	\input{content/relatedWork.tex}
 	\input{content/algorithms.tex}
@@ -132,16 +83,25 @@ Integer vitae neque odio, a sollicitudin lorem. Aenean orci mauris, tristique lu
 	\input{content/evaluation.tex}
 	\input{content/futureWork.tex}
 	\input{content/conclusion.tex}
-	%%%%%%%%
 	
-	%%% BIBLIOGRAPHY
+	%%% Bibliography
 	%\bibliographystyle{babunsrt3-fl}
 	\addcontentsline{toc}{section}{Bibliography}
 	\bibliographystyle{babunsrt-fl}
 	\bibliography{projektbib}
 	\clearpage	
 	
+	%%%% Appendix
 	\input{content/appendix.tex}
 	
+	%%% TODOs
+	%\todo[inline]{The original todo note withouth changed colours.\newline Here's another line.}
+	%\lipsum[1]\unsure{Is this correct?}\unsure{I'm unsure about also!}
+	%\lipsum[1]\change{Transate abstract}
+	%\lipsum[1]\info{This can help me in chapter seven!}
+	%\lipsum[1]\improvement{This really needs to be improved!\newline\newline What was I thinking?!}
+	%\thiswillnotshow{This is hidden since option `disable' is chosen!}
+	%\improvement[inline]{The following section needs to be rewritten!}
+	\listoftodos[Notes]
 	
 \end{document}
