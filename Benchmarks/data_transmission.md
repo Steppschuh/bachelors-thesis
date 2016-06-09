@@ -49,7 +49,8 @@ LG G Round     | Watch           |   23         |
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | Comment 
  ---------------: | ------------: | ----------------: | -------
-295.236.000       |  500          | 5022              | 1 sensor, ~34 updates (`SENSOR_DELAY_FASTEST`)
-327.332.000       |  500          | 6637              | 2 sensors, ~70 updates (`SENSOR_DELAY_FASTEST`)
-420.616.000       |  500          | 12528             | 3 sensors, ~111 updates (`SENSOR_DELAY_FASTEST`)
+295.236.000       |  500          | 5022              | 1 sensor, ~34 updates
+1.239.350.000     |  500          | 23296             | 2 sensors, ~252 updates
+1.395.970.000     |  500          | 42805             | 3 sensors, ~393 updates
+1.677.132.000     |  500          | 86801             | 5 sensors, ~730 updates
 
