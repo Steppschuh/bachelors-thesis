@@ -4,6 +4,7 @@ The average delay between *"Started sending a data batch from an Android Wear de
 ---
 
 ### Benchmark #1
+Devices are lying next to each other.
 
 #### Measured operations
 - Generate request response (watch)
@@ -21,7 +22,7 @@ Nexus 9        | Tablet          |   23         | Beta Release Build
 LG G Round     | Watch           |   23         | 
 
 ### Benchmark #1.1
-Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 50 ms**.
+Requesting 3-dimensional accelerometer data **every 50 ms**.
 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
@@ -32,7 +33,7 @@ Devices are lying next to each other. Requesting 3-dimensional accelerometer dat
 1,306,400,000     |  500          | 3,599             | ~362,989       | ~24 updates (`SENSOR_DELAY_FASTEST`)
 
 ### Benchmark #1.2
-Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 500 ms**.
+Requesting 3-dimensional accelerometer data **every 500 ms**.
 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
@@ -43,13 +44,13 @@ Devices are lying next to each other. Requesting 3-dimensional accelerometer dat
 1,412,810,000     |  500          | 16,951            | ~83,346        | ~118 updates (`SENSOR_DELAY_FASTEST`)
 
 ### Benchmark #1.3
-Devices are lying next to each other. Requesting data from **multiple sensors** with `SENSOR_DELAY_FASTEST` **every 500 ms**.
+Requesting data from **multiple sensors** with `SENSOR_DELAY_FASTEST` **every 500 ms**.
 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
  ---------------: | ------------: | ----------------: | -------------: | -------
 1,452,400,000     |  500          | 16,690            | ~87,022        | 1 sensor, ~116 updates
 1,489,100,000     |  500          | 22,819            | ~65,257        | 2 sensors, ~246 updates
-1,752,420,000     |  500          | 60,679            | ~28,880        | 4 sensors, ~384 updates
+1,752,420,000     |  500          | 60,679            | ~28,880        | 4 sensors, ~512 updates
 2,842,640,000     |  500          | 177,495           | ~16,015        | 8 sensors, ~1504 updates
 
