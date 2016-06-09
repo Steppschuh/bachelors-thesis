@@ -1,9 +1,7 @@
 ## Data Transmission Duration
-The average delay between these two events:
-- Started sending a data batch from an Android Wear device
-- Received the data batch on a connected Android handset
+The average delay between *"Started sending a data batch from an Android Wear device"* and *"Received the data batch on a connected Android handset"* while using JSON serialization to transfer data.
 
-The measurement includes the following operations:
+#### Measured operations
 - Generate request response (watch)
   - Get sensor data since last response
 - Serialize request response (watch)
@@ -20,7 +18,7 @@ LG G Round     | Watch           |   23         |
 
 ---
 
-### Benchmark #1
+### Benchmark #1.1
 
 #### Conditions
 Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 100 ms**.
@@ -35,7 +33,7 @@ Devices are lying next to each other. Requesting 3-dimensional accelerometer dat
 
 ---
 
-### Benchmark #2
+### Benchmark #1.2
 
 #### Conditions
 Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 500 ms**.
@@ -50,7 +48,7 @@ Devices are lying next to each other. Requesting 3-dimensional accelerometer dat
 
 ---
 
-### Benchmark #3
+### Benchmark #1.3
 
 #### Conditions
 Devices are about **5 meters apart**. Requesting data from **multiple sensors** with `SENSOR_DELAY_FASTEST` **every 500 ms**.
