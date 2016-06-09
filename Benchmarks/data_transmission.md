@@ -12,6 +12,8 @@ The measurement includes the following operations:
   - Using the [MessageApi](https://developers.google.com/android/reference/com/google/android/gms/wearable/MessageApi)
 - Deserialize data (mobile)
 
+---
+
 ### Benchmark #1
 
 #### Conditions
@@ -30,6 +32,8 @@ LG G Round     | Watch           |   23         |
 173.952.000       |  500          | 484               | ~2 updates (`SENSOR_DELAY_UI`)
 188.960.000       |  500          | 1340              | ~8 updates (`SENSOR_DELAY_GAME`)
 204.540.000       |  500          | 5045              | ~34 updates (`SENSOR_DELAY_FASTEST`)
+
+---
 
 ### Benchmark #2
 
