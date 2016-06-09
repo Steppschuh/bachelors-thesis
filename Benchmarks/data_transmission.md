@@ -1,6 +1,11 @@
 ## Data Transmission Duration
 Text that describes what was measured. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod est vel augue laoreet gravida. Ut ut sapien et diam pretium sollicitudin. In hendrerit dolor ut nunc posuere dapibus.
 
+- Generate request response (watch)
+- Serialize request response (watch)
+- Transfer data (watch → mobile)
+- Deserialize data
+
 ### Benchmark #1
 
 #### Conditions
