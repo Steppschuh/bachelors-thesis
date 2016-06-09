@@ -1,5 +1,9 @@
 ## Data Transmission Duration
-The average delay between *"Started sending a data batch from an Android Wear device"* and *"Received the data batch on a connected Android handset"* while using JSON serialization to transfer data.
+The average delay between *"Started sending a data batch from an Android Wear device"* and *"Received the data batch on a connected Android handset"*.
+
+---
+
+### Benchmark #1
 
 #### Measured operations
 - Generate request response (watch)
@@ -16,11 +20,7 @@ The average delay between *"Started sending a data batch from an Android Wear de
 Nexus 9        | Tablet          |   23         | Beta Release Build
 LG G Round     | Watch           |   23         | 
 
----
-
 ### Benchmark #1.1
-
-#### Conditions
 Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 100 ms**.
 
 #### Results
@@ -31,11 +31,7 @@ Devices are lying next to each other. Requesting 3-dimensional accelerometer dat
 88,960,000        |  500          | 1,340             | ~66,388        | ~8 updates (`SENSOR_DELAY_GAME`)
 104,540,000       |  500          | 5,045             | ~20,721        | ~34 updates (`SENSOR_DELAY_FASTEST`)
 
----
-
 ### Benchmark #1.2
-
-#### Conditions
 Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 500 ms**.
 
 #### Results
@@ -46,11 +42,7 @@ Devices are lying next to each other. Requesting 3-dimensional accelerometer dat
 657,940,000       |  500          | 4,183             | ~157,289       | ~28 updates (`SENSOR_DELAY_GAME`)
 787,030,000       |  500          | 17,942            | ~43,865        | ~125 updates (`SENSOR_DELAY_FASTEST`)
 
----
-
 ### Benchmark #1.3
-
-#### Conditions
 Devices are about **5 meters apart**. Requesting data from **multiple sensors** with `SENSOR_DELAY_FASTEST` **every 500 ms**.
 
 #### Results
