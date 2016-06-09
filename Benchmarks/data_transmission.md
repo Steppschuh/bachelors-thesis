@@ -12,18 +12,18 @@ The measurement includes the following operations:
   - Using the [MessageApi](https://developers.google.com/android/reference/com/google/android/gms/wearable/MessageApi)
 - Deserialize data (mobile)
 
+#### Used Devices
+ Name          | Device Type     | Android SDK  | Comment 
+ :------------ | :-------------: | -----------: | -------
+Nexus 9        | Tablet          |   23         | Beta Release Build
+LG G Round     | Watch           |   23         | 
+
 ---
 
 ### Benchmark #1
 
 #### Conditions
 Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 100 ms**.
-
-#### Used Devices
- Name          | Device Type     | Android SDK  | Comment 
- :------------ | :-------------: | -----------: | -------
-Nexus 9        | Tablet          |   23         | Beta Release Build
-LG G Round     | Watch           |   23         | 
 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
@@ -33,16 +33,12 @@ LG G Round     | Watch           |   23         |
 188,960,000       |  500          | 1340              | ~141,014        | ~8 updates (`SENSOR_DELAY_GAME`)
 204,540,000       |  500          | 5045              | ~40,543         | ~34 updates (`SENSOR_DELAY_FASTEST`)
 
+---
+
 ### Benchmark #2
 
 #### Conditions
 Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 500 ms**.
-
-#### Used Devices
- Name          | Device Type     | Android SDK  | Comment 
- :------------ | :-------------: | -----------: | -------
-Nexus 9        | Tablet          |   23         | Beta Release Build
-LG G Round     | Watch           |   23         | 
 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
@@ -58,12 +54,6 @@ LG G Round     | Watch           |   23         |
 
 #### Conditions
 Devices are about **5 meters apart**. Requesting data from **multiple sensors** with `SENSOR_DELAY_FASTEST` **every 500 ms**.
-
-#### Used Devices
- Name          | Device Type     | Android SDK  | Comment 
- :------------ | :-------------: | -----------: | -------
-Nexus 9        | Tablet          |   23         | Beta Release Build
-LG G Round     | Watch           |   23         | 
 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
