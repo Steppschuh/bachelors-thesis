@@ -1,4 +1,4 @@
-## Data Transmission Duration
+## Data Transmission Delay
 The average delay between *"Started sending a data batch from an Android Wear device"* and *"Received the data batch on a connected Android handset"*.
 
 ---
@@ -21,15 +21,15 @@ Nexus 9        | Tablet          |   23         | Beta Release Build
 LG G Round     | Watch           |   23         | 
 
 ### Benchmark #1.1
-Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 100 ms**.
+Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 50 ms**.
 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
  ---------------: | ------------: | ----------------: | -------------: | -------
-66,108,000        |  500          | 341               | ~193,865       | ~1 update (`SENSOR_DELAY_NORMAL`)
-73,952,000        |  500          | 484               | ~152,793       | ~2 updates (`SENSOR_DELAY_UI`)
-88,960,000        |  500          | 1,340             | ~66,388        | ~8 updates (`SENSOR_DELAY_GAME`)
-104,540,000       |  500          | 5,045             | ~20,721        | ~34 updates (`SENSOR_DELAY_FASTEST`)
+1,266,250,000     |  500          | 200               | ~        | ~1 update (`SENSOR_DELAY_NORMAL`)
+1,271,160,000     |  500          | 482               | ~        | ~2 updates (`SENSOR_DELAY_UI`)
+1,285,510,000     |  500          | 1,056             | ~        | ~6 updates (`SENSOR_DELAY_GAME`)
+1,306,400,000     |  500          | 3,599             | ~        | ~24 updates (`SENSOR_DELAY_FASTEST`)
 
 ### Benchmark #1.2
 Devices are lying next to each other. Requesting 3-dimensional accelerometer data **every 500 ms**.
@@ -37,10 +37,10 @@ Devices are lying next to each other. Requesting 3-dimensional accelerometer dat
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
  ---------------: | ------------: | ----------------: | -------------: | -------
-647,100,000       |  500          | 626               | ~1,033,706     | ~3 updates (`SENSOR_DELAY_NORMAL`)
-649,840,000       |  500          | 1,196             | ~543,344       | ~8 updates (`SENSOR_DELAY_UI`)
-657,940,000       |  500          | 4,183             | ~157,289       | ~28 updates (`SENSOR_DELAY_GAME`)
-787,030,000       |  500          | 17,942            | ~43,865        | ~125 updates (`SENSOR_DELAY_FASTEST`)
+1,329,120,000     |  500          | 625               | ~        | ~3 update (`SENSOR_DELAY_NORMAL`)
+1,331,970,000     |  500          | 1,340             | ~        | ~8 updates (`SENSOR_DELAY_UI`)
+1,373,370,000     |  500          | 8,262             | ~        | ~28 updates (`SENSOR_DELAY_GAME`)
+1,412,810,000     |  500          | 16,951            | ~        | ~118 updates (`SENSOR_DELAY_FASTEST`)
 
 ### Benchmark #1.3
 Devices are about **5 meters apart**. Requesting data from **multiple sensors** with `SENSOR_DELAY_FASTEST` **every 500 ms**.
@@ -48,8 +48,8 @@ Devices are about **5 meters apart**. Requesting data from **multiple sensors** 
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
  ---------------: | ------------: | ----------------: | -------------: | -------
-819,430,000       |  500          | 17,968            | ~45,604        | 1 sensor, ~125 updates
-739,350,000       |  500          | 23,296            | ~31,737        | 2 sensors, ~252 updates
-895,970,000       |  500          | 42,805            | ~20,931        | 3 sensors, ~393 updates
-1,177,132,000     |  500          | 86,801            | ~13,561        | 5 sensors, ~730 updates
+819,430,000       |  500          | 17,968            | ~        | 1 sensor, ~125 updates
+739,350,000       |  500          | 23,296            | ~        | 2 sensors, ~252 updates
+895,970,000       |  500          | 42,805            | ~        | 3 sensors, ~393 updates
+1,177,132,000     |  500          | 86,801            | ~        | 5 sensors, ~730 updates
 
