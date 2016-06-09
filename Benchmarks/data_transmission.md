@@ -2,8 +2,11 @@
 Text that describes what was measured. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod est vel augue laoreet gravida. Ut ut sapien et diam pretium sollicitudin. In hendrerit dolor ut nunc posuere dapibus.
 
 - Generate request response (watch)
+  - Get 3-dimensional accelerometer data since last response
 - Serialize request response (watch)
+  - Using the [Jackson](https://github.com/FasterXML/jackson-databind) ObjectMapper
 - Transfer data (watch → mobile)
+  - Using the [MessageApi](https://developers.google.com/android/reference/com/google/android/gms/wearable/MessageApi)
 - Deserialize data
 
 ### Benchmark #1
