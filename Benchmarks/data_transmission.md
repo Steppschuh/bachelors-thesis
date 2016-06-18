@@ -18,7 +18,7 @@ Devices are lying next to each other.
 #### Used Devices
  Name          | Device Type     | Android SDK  | Comment 
  :------------ | :-------------: | -----------: | -------
-Nexus 9        | Tablet          |   23         | Beta Release Build
+Nexus 9        | Tablet          |   24         | Beta Release Build
 LG G Round     | Watch           |   23         | 
 
 ### Benchmark #1.1
@@ -38,7 +38,7 @@ Requesting 3-dimensional accelerometer data **every 500 ms**.
 #### Results
  ∅ delay in ns    | Measurements  | Transferred bytes | delay / bytes  | Comment 
  ---------------: | ------------: | ----------------: | -------------: | -------
-1,329,120,000     |  500          | 625               | ~2,126,592     | ~3 update (`SENSOR_DELAY_NORMAL`)
+1,329,120,000     |  500          | 625               | ~2,126,592     | ~3 updates (`SENSOR_DELAY_NORMAL`)
 1,331,970,000     |  500          | 1,340             | ~994,007       | ~8 updates (`SENSOR_DELAY_UI`)
 1,373,370,000     |  500          | 8,262             | ~166,227       | ~28 updates (`SENSOR_DELAY_GAME`)
 1,412,810,000     |  500          | 16,951            | ~83,346        | ~118 updates (`SENSOR_DELAY_FASTEST`)
