@@ -1,12 +1,15 @@
 \section{Devices}
 \label{sec:devices}
 
+I had to build prototypes for research purposes and needed to decide which wearables I intend to work with.
+Although I wanted to support the widest range of devices that I could, I had to ditch some in order to be able to iterate fast.
+In the following section, I will list the advantages and disadvantages of different wearables.
 
 \subsection{Apple Watch}
-\begin{itemize}[noitemsep]
-	\item Why it's useless (no background services)
-\end{itemize}
-\lipsum[1]
+While the currently available Apple Watches all provide sufficient hardware and enough sensors, the software doesn't allow 3rd party developers to take full advantage of this.
+With WatchOS 2, Apple restricted apps running on the watch to only get access to sensor data while it's visible to the user.
+For my project however, I needed a way to access sensor data from a background service, which simply isn't possible with the existing APIs.
+Apple announced that in WatchOS 3 (which isn't available yet), this restriction will be eliminated. 
 
 \subsection{UP by Jawbone}
 \begin{itemize}[noitemsep]
@@ -23,13 +26,10 @@
 \lipsum[1]
 
 \subsection{Android Wear}
-\begin{itemize}[noitemsep]
-	\item Why we can do whatever we want
-	\item Focus for this project
-\end{itemize}
-\lipsum[1]
-\lipsum[2]
-\lipsum[3]
+Android Wear is a platform for smartwatches that many devices from different manufacturers build upon.
+Although it's customized to match the conditions of a watch, it's still a full Android OS without any limitations.
+Because of Androids open nature, it's possible to use everything that the devices offer without any software restrictions.
 
+Unlike the Apple Watch, Android Wear devices are able to connect to devices that don't belong to the same ecosystem, which increases the number of potential users.
 
 \clearpage
