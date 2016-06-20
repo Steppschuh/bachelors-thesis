@@ -17,30 +17,37 @@ Code samples in the following sections are snippets from this project and can be
 \clearpage
 
 \subsection{Accessing Data}
+
+Android provides the |SensorManager|\cite{androiddocs:sensormanager} system service class in order to grant applications access to the device sensors.
+The supported sensors can be divided into three categories:
+
 \begin{itemize}[noitemsep]
-	\item The Android sensor manager
-	\item Registereing sensor event listeners
-	\item Collectiong sensor event data
+	\item \textbf{Environmantal sensors} (thermometers, barometers and photometers)
+	\item \textbf{Motion sensors} (accelerometers, gyroscopes and gravity sensors)
+	\item \textbf{Position sensors} (magnetometers and orientation sensors)
 \end{itemize}
 
+Not all sensors are hardware components, the so called ``virtual-'' or ``synthetic sensors'' derive their data from one or more hardware-based sensors.
+Examples for these virtual sensors would be the ``Linear Acceleration Sensor'', which computes its data based on the accelerometer and the force of gravity.
+
+All sensors can be accessed through the Android sensor framework, which provides classes and interfaces that can be used to figure out which sensors are available on the current device, which capabilities they have and what data they produce.
+
+\subsection{Checking Availability}
+While most devices have an accelerometer and a magnetometer, only a few have a thermometer.
+The availability of sensors can't be guaranteed, it's good practice to check this at runtime:
+
 \begin{lstlisting}[label=test]
-/**
- * Calls @requestAvailableSensors for all connected nearby nodes
- * in order to pre-fetch the available sensors for the dialog.
- */
-private void requestAvailableSensors() {
-	Log.d(TAG, "Pre-fetching available sensors from all nearby nodes");
-	for (Node node : app.getGoogleApiMessenger().getLastConnectedNearbyNodes()) {
-		if (!hasSelectedSensorsForNode(node.getId())) {
-			requestAvailableSensors(node.getId(), new AvailableSensorsUpdatedListener() {
-				@Override
-				public void onAvailableSensorsUpdated(String nodeId, List<DeviceSensor> deviceSensors) {
-					Log.d(TAG, "Fetched available sensors on " + nodeId);
-					availableSensors.put(nodeId, deviceSensors);
-				}
-			});
-		}
-	}
+SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+// get a list of available sensors
+List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+
+// check if an accelerometer is available
+Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+if (accelerometer != null) {
+	// use accelerometer
+} else {
+	// perform error handling
 }
 \end{lstlisting}
 

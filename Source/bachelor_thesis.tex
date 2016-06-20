@@ -53,20 +53,29 @@
     stringstyle=\color{code_strings},
     identifierstyle=\color{code_identifiers},
     basicstyle=\scriptsize,
+    aboveskip=5mm,
+    belowskip=5mm,
     xleftmargin=-20mm,
-    xrightmargin=-30mm,
+    xrightmargin=-20mm,
     breakatwhitespace=false,
     breaklines=true,
     captionpos=b,
     keepspaces=true,
     numbers=left,
-    numbersep=5pt,
+    numbersep=10pt,
+    frameround=ftff,
+    frame=single,
+    rulecolor=\color{code_frame},
     showspaces=false,
     showstringspaces=false,
     showtabs=false,
     tabsize=2
 }
 \lstset{style=javastyle}
+\lstMakeShortInline[
+	columns=fixed,
+	basicstyle=\ttfamily
+]|
 
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{0.25cm}
