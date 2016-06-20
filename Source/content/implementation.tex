@@ -22,6 +22,28 @@ Code samples in the following sections are snippets from this project and can be
 	\item Registereing sensor event listeners
 	\item Collectiong sensor event data
 \end{itemize}
+
+\begin{lstlisting}[label=test]
+/**
+ * Calls @requestAvailableSensors for all connected nearby nodes
+ * in order to pre-fetch the available sensors for the dialog.
+ */
+private void requestAvailableSensors() {
+	Log.d(TAG, "Pre-fetching available sensors from all nearby nodes");
+	for (Node node : app.getGoogleApiMessenger().getLastConnectedNearbyNodes()) {
+		if (!hasSelectedSensorsForNode(node.getId())) {
+			requestAvailableSensors(node.getId(), new AvailableSensorsUpdatedListener() {
+				@Override
+				public void onAvailableSensorsUpdated(String nodeId, List<DeviceSensor> deviceSensors) {
+					Log.d(TAG, "Fetched available sensors on " + nodeId);
+					availableSensors.put(nodeId, deviceSensors);
+				}
+			});
+		}
+	}
+}
+\end{lstlisting}
+
 \lipsum[1]
 \lipsum[2]
 \lipsum[3]
