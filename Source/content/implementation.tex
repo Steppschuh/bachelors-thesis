@@ -32,11 +32,12 @@ Examples for these virtual sensors would be the ``Linear Acceleration Sensor'', 
 
 All sensors can be accessed through the Android sensor framework, which provides classes and interfaces that can be used to figure out which sensors are available on the current device, which capabilities they have and what data they produce.
 
-\subsection{Checking Availability}
+\subsubsection{Checking Availability}
 While most devices have an accelerometer and a magnetometer, only a few have a thermometer.
 The availability of sensors can't be guaranteed, it's good practice to check this at runtime:
 
-\begin{lstlisting}[label=test]
+\begin{lstlisting}[label=getsensormanager]
+// get a SensorManager instance
 SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
 // get a list of available sensors
@@ -49,6 +50,33 @@ if (accelerometer != null) {
 } else {
 	// perform error handling
 }
+\end{lstlisting}
+
+If a sensor is available, public methods from the |Sensor|\cite{androiddocs:sensor} class can be used to get detailed information about it.
+The name, vendor, version, data range and reporting delay are useful properties, especially because one device can have multiple sensors of the same type.
+
+\subsubsection{Monitoring data changes}
+In order to get access to the actual data, a |SensorEventListener|\cite{androiddocs:sensoreventlistener} needs to be registered at the |SensorManager| instance. The |SensorEventListener| is an interface which exposes two callback methods:
+
+\begin{lstlisting}[label=registersensoreventlistener]
+// create a new SensorEventListener
+SensorEventListener listener = new SensorEventListener() {
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		// sensor reported new data
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// sensor accuracy changed
+	}
+};
+
+// specify a reporting delay for the sensor
+int delay = SensorManager.SENSOR_DELAY_NORMAL;
+
+// register the listener for the accelerometer
+sensorManager.registerListener(listener, accelerometer, delay);
 \end{lstlisting}
 
 \lipsum[1]
