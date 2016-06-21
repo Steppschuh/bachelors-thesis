@@ -99,7 +99,7 @@ Because the reporting delay can impact the battery life of the device, some manu
 Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user left the application.
 Hence, one should always unregister listeners as soon as possible in order to prevent battery drain:
 
-\begin{lstlisting}[label=registersensoreventlistener]
+\begin{lstlisting}[label=basicactivity]
 public class SensorActivity extends Activity implements SensorEventListener {
 	private SensorManager sensorManager;
 	private Sensor accelerometer;
@@ -110,6 +110,18 @@ public class SensorActivity extends Activity implements SensorEventListener {
 		setContentView(R.layout.main);
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		sensorManager.unregisterListener(this);
 	}
 
 	@Override
@@ -125,24 +137,44 @@ public class SensorActivity extends Activity implements SensorEventListener {
 	public final void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// sensor accuracy changed
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		sensorManager.unregisterListener(this);
-	}
 }
 \end{lstlisting}
 
 This very basic example activity would print accelerometer data to the console once deployed.
 Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}.
 I presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle works.
+
+\subsection{Persisting Data}
+Once a sensor is reporting data, a new |SensorEvent| will be passed to the callback every few milliseconds.
+The |values| float array will contain new data, however the system won't allocate a new object for every update in order to improve performance.
+Handling these values without knowing about its object identity might cause confusion, as they will be overwritten with every update.
+To prevent this, a new float array can be used to hold the event data:
+
+\begin{lstlisting}[label=arraycopy]
+@Override
+public void onSensorChanged(SensorEvent event) {
+	// create a new float array with the same size
+	float[] values = new float[event.values.length];
+
+	// copy data from event values
+	System.arraycopy(event.values, 0, values, 0, event.values.length);
+
+	// persist values in some way
+	persistValues(values);
+}
+\end{lstlisting}
+
+For my project, I needed to look back at sensor events from the past few seconds in order to detect patterns and to extract features.
+I created some helper classes\cite{sensordatalogger:datapackage} that allowed me to wrap sensor event data in POJOs\footnote{Plain old Java objects}, this way they could be persisted in a batch-like structure.
+
+There is a |Data|\cite{sensordatalogger:data} class which can wrap the values of a |SensorEvent|, its source and a timestamp.
+This is necessary because the |SensorEvent| holds references to objects that aren't required multiple times and because there's no public constructor available.
+
+The |DataBatch|\cite{sensordatalogger:databatch} class holds and manages a list of |Data| objects.
+It has a customizable capacity, one can add or remove |Data| and it will automatically remove old |Data| if the capacity has been reached.
+It also provides some convenience methods, for example to get |Data| from within a given time range.
+
+Both classes are serializable and come in handy when actually writing data into a file or transferring it to another device.
 
 \subsection{Transferring Data}
 \begin{itemize}[noitemsep]
