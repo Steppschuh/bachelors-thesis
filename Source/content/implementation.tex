@@ -17,6 +17,7 @@ Code samples in the following sections are snippets from this project and can be
 \clearpage
 
 \subsection{Accessing Data}
+\label{sec:implementation:accessingdata}
 
 Android provides the |SensorManager|\cite{androiddocs:sensormanager} system service class in order to grant applications access to the device sensors.
 The supported sensors can be divided into three categories:
@@ -28,11 +29,12 @@ The supported sensors can be divided into three categories:
 \end{itemize}
 
 Not all sensors are hardware components, the so called ``virtual-'' or ``synthetic sensors'' derive their data from one or more hardware-based sensors.
-Examples for these virtual sensors would be the ``Linear Acceleration Sensor'', which computes its data based on the accelerometer and the force of gravity.
+Examples for these virtual sensors would be the linear acceleration sensor, which computes its data based on the accelerometer and the force of gravity.
 
 All sensors can be accessed through the Android sensor framework, which provides classes and interfaces that can be used to figure out which sensors are available on the current device, which capabilities they have and what data they produce.
 
 \subsubsection{Checking Availability}
+\label{sec:implementation:checkingavailability}
 While most devices have an accelerometer and a magnetometer, only a few have a thermometer.
 The availability of sensors can't be guaranteed, it's good practice to check this at runtime:
 
@@ -56,6 +58,7 @@ If a sensor is available, public methods from the |Sensor|\cite{androiddocs:sens
 The name, vendor, version, data range and reporting delay are useful properties, especially because one device can have multiple sensors of the same type.
 
 \subsubsection{Monitoring data changes}
+\label{sec:implementation:monitoringdatachanges}
 In order to get access to the actual data, a |SensorEventListener|\cite{androiddocs:sensoreventlistener} needs to be registered at the |SensorManager| instance. The |SensorEventListener| is an interface which exposes two callback methods:
 
 \begin{lstlisting}[label=registersensoreventlistener]
@@ -79,16 +82,67 @@ int delay = SensorManager.SENSOR_DELAY_NORMAL;
 sensorManager.registerListener(listener, accelerometer, delay);
 \end{lstlisting}
 
-\lipsum[1]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
-\lipsum[1]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
+The |onSensorChanged| method will be called every time the sensor updates its values. The passed |SensorEvent|\cite{androiddocs:sensorevent} holds the sensor, a timestamp, the accuracy and an array of floats containing the actual values.
+
+If the sensor accuracy changes, which often happens when using location sensors, the |onAccuracyChanged| method will be called.
+It can be usefull to care about these accuracies, the location optained from the Cell-ID or Wi-Fi might be more accurate than the latest GPS coordinates for example.
+In other cases sensors might need a few seconds to calibrate, like the magnetometer.
+
+When registering a |SensorEventListener|, a delay in microseconds is also passed to the |SensorManager|.
+It's worth to notice that this value is more like a suggestion, as other applications and the system can alter it.
+Because the reporting delay can impact the battery life of the device, some manufacturers will lower the reporting interval when the device is idle or the display is turned off.
+
+\clearpage
+
+\subsubsection{Monitoring lifecycle changes}
+\label{sec:implementation:monitoringlifecyclechanges}
+Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user left the application.
+Hence, one should always unregister listeners as soon as possible in order to prevent battery drain:
+
+\begin{lstlisting}[label=registersensoreventlistener]
+public class SensorActivity extends Activity implements SensorEventListener {
+	private SensorManager sensorManager;
+	private Sensor accelerometer;
+
+	@Override
+	public final void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	}
+
+	@Override
+	public final void onSensorChanged(SensorEvent event) {
+		StringBuilder log = new StringBuilder("Acceleration:");
+		log.append(" X: ").append(String.valueOf(event.values[0]));
+		log.append(" Y: ").append(String.valueOf(event.values[1]));
+		log.append(" Z: ").append(String.valueOf(event.values[2]));
+		System.out.println(log.toString());
+	}
+
+	@Override
+	public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// sensor accuracy changed
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		sensorManager.unregisterListener(this);
+	}
+}
+\end{lstlisting}
+
+This very basic example activity would print accelerometer data to the console once deployed.
+Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}.
+I presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle works.
 
 \subsection{Transferring Data}
 \begin{itemize}[noitemsep]
