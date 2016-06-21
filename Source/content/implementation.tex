@@ -1,7 +1,7 @@
 \section{Implementation}
 \label{sec:implementation}
 
-To showcase and benchmark my work, I created an Android App that visualizes sensor data from the device that it runs on and also from connected Android Wear devices.
+To showcase and benchmark my work, I created an Android app that visualizes sensor data from the device it runs on and also from connected Android Wear devices.
 The app is called Sensor Data Logger (\ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
 
 \begin{figure}[H]
@@ -29,7 +29,7 @@ The supported sensors can be divided into three categories:
 \end{itemize}
 
 Not all sensors are hardware components, the so called ``virtual-'' or ``synthetic sensors'' derive their data from one or more hardware-based sensors.
-Examples for these virtual sensors would be the linear acceleration sensor, which computes its data based on the accelerometer and the force of gravity.
+Examples for these virtual sensors are the linear acceleration sensor, which computes its data based on the accelerometer and the force of gravity.
 
 All sensors can be accessed through the Android sensor framework, which provides classes and interfaces that can be used to figure out which sensors are available on the current device, which capabilities they have and what data they produce.
 
@@ -96,7 +96,7 @@ Because the reporting delay can impact the battery life of the device, some manu
 
 \subsubsection{Monitoring lifecycle changes}
 \label{sec:implementation:monitoringlifecyclechanges}
-Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user left the application.
+Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user leaves the application.
 Hence, one should always unregister listeners as soon as possible in order to prevent battery drain:
 
 \begin{lstlisting}[label=basicactivity]
