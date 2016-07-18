@@ -355,7 +355,7 @@ public void onMessageReceived(MessageEvent messageEvent) {
 }
 \end{lstlisting}
 
-Obviously, message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a String representation of a |DataRequest|, which can easily be restored from JSON using libraries like gson\footnote{https://github.com/google/gson}.
+Obviously, message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|, which can easily be deserialized from JSON using libraries like gson\footnote{https://github.com/google/gson}.
 
 \improvement{Explain ChannelApi}
 
