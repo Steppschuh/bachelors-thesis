@@ -29,7 +29,7 @@ The supported sensors can be divided into three categories:
 \end{itemize}
 
 Not all sensors are hardware components, the so called ``virtual-'' or ``synthetic sensors'' derive their data from one or more hardware-based sensors.
-Examples for these virtual sensors are the linear acceleration sensor, which computes its data based on the accelerometer and the force of gravity.
+Examples for these virtual sensors are the linear acceleration sensor, which computes its data based on the accelerometer and the gravity sensor.
 
 All sensors can be accessed through the Android sensor framework, which provides classes and interfaces that can be used to figure out which sensors are available on the current device, which capabilities they have and what data they produce.
 
@@ -142,7 +142,7 @@ public class SensorActivity extends Activity implements SensorEventListener {
 
 This very basic example activity would print accelerometer data to the console once deployed.
 Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}.
-I presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle works.
+I presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle\improvement{Explain} works.
 
 \subsection{Persisting Data}
 Once a sensor is reporting data, a new |SensorEvent| will be passed to the callback every few milliseconds.
@@ -212,13 +212,30 @@ Actually using the sensor event data requires transferring it to a device with s
 In a world where the IoT\footnote{Internet of Things} is a big topic, data is usually uploaded to the cloud and processed on powerfull servers.
 Although one could do that from a mobile device, this approach would produce a huge amount of traffic and ultimately lead to privacy concerns.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/wear_cloud_node.png}
+	\caption[Caption for wear_cloud_node]{Sample network with mobile and wearable nodes\footnotemark}
+	\label{fig:nodeNetwork}
+\end{figure}
+\footnotetext{https://developer.android.com/training/wearables/data-layer/}
+
 The setup that this work is about could be seen as a peer to peer network between a mobile device and multiple wearables.
 Because the devices are connected with each other, there's no need to detour data through the internet.
 By default, wearables are connected via Bluetooth with a mobile device.
 On the Android platform, this connection can be accessed through the |WearableApi|\cite{androiddocs:wearable}.
 
+\clearpage
+
 \subsubsection{The Wearable Data Layer}
-The Data Layer API is part of of the Google Play Services (version 5+) and can be reached using an instance of the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
+
+The Data Layer API is part of of the Google Play Services.
+It contains the only APIs that should be used to set up a communication channel between a mobile device and mobile devices. 
+Custom, low-level socket implementations are not recommended.
+
+As shown in figure \ref{fig:nodeNetwork}, the Data Layer API can handle multiple nodes at once.
+We are particularly interested in the Bluetooth channel, but we don't have to care about the connection because this is handled by the Play Services for us.
+The API can be reached using an instance of the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
 Because some Play Services may not be available on every device, the |GoogleApiClient| needs to be setup first:
 
 \begin{lstlisting}[label=googleapiclient]
@@ -243,7 +260,18 @@ GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
 		.build();
 \end{lstlisting}
 
-asdf
+This code block would initialize a |GoogleApiClient| instance.
+However, |addApi(Wearable.API)| would cause a call to |onConnectionFailed| if the device it runs on doesn't have the Android Wear app\footnote{https://play.google.com/store/apps/details?id=com.google.android.wearable.app} installed.
+This app is required because it handles the connection and synchronization of wearables.
+For more gracefull error handling, |addApiIfAvailable(Wearable.API)| might be the more appropriate solution.
+
+\subsubsection{The Message API}
+
+There are multiple ways of exchanging data between nodes using the Data Layer API.
+While the |DataApi|\cite{androiddocs:dataapi} can be used to synchronize larger binary blobs (|Assets|\cite{androiddocs:asset}) accross the wearable network, the |MessageApi|\cite{androiddocs:messageapi} is more suitable for exchanging smaller data payloads.
+
+\improvement{Explain ChannelApi}
+
 
 \begin{itemize}[noitemsep]
 	\item What to transfer
