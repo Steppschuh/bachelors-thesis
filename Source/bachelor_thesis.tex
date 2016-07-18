@@ -19,12 +19,15 @@
 \usepackage{makeidx}
 \usepackage{tabularx}
 \usepackage{floatflt}
+\usepackage{float}
 \usepackage{lipsum}
 \usepackage{xargs}
 \usepackage{enumitem}
+\usepackage{listings}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage[pdftex, colorlinks, linktocpage, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
 \usepackage[linesnumbered]{algorithm2e}
+\setlength\abovecaptionskip{-15pt}
 
 \pagestyle{scrheadings}
 
@@ -36,9 +39,43 @@
 \newcommand{\thetitle}{Accessing and transferring sensor data on Wearables in real-time}
 \newcommand{\thesubtitle}{Zugriff und Übertragung von Sensor Daten auf Wearables in Echtzeit}
 
+\input{utils/codecolors}
 \input{utils/hpicolors}
 \input{utils/commands}
 \input{utils/environments}
+
+\lstdefinestyle{javastyle}{
+    language=Java,
+    backgroundcolor=\color{code_background},
+    commentstyle=\color{code_comments},
+    keywordstyle=\color{code_keywords},
+    numberstyle=\tiny\color{code_numbers},
+    stringstyle=\color{code_strings},
+    identifierstyle=\color{code_identifiers},
+    basicstyle=\scriptsize,
+    aboveskip=5mm,
+    belowskip=5mm,
+    xleftmargin=-20mm,
+    xrightmargin=-20mm,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=10pt,
+    frameround=ftff,
+    frame=single,
+    rulecolor=\color{code_frame},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=javastyle}
+\lstMakeShortInline[
+	columns=fixed,
+	basicstyle=\ttfamily
+]|
 
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{0.25cm}

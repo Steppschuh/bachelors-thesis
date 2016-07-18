@@ -1,40 +1,35 @@
 \section{Introduction}
 \label{sec:intro}
 
+When speaking about mobile devices and wearables, it might not be exactly clear which kind of hardware I'm talking about.
+
+Mobile devices are smartphones or tablets in this context. Most of the currently available mobile devices offer capabilities that could only be expected from desktop PCs a few years ago.
+
+Wearables can be described as technology gadgets that you can wear on your body, e.g. around your wrist.
+Usually they are loaded with sensors and can be connected to an other mobile device via Bluetooth.
+The most commonly used wearables are smartwatches and fitness trackers, but the technology can also live in clothing or jewellery.
+
 
 \subsection{Motivation}
+The data produced by sensors on wearables can be valuable for multiple usecases, for example:
 \begin{itemize}[noitemsep]
-	\item Why we need to access sensor data
-		\begin{itemize}
-			\item activity feedback
-			\item event triggers
-			\item games
-		\end{itemize}
-	\item Why we can't process the data on wearables
-		\begin{itemize}
-			\item battery consumption
-			\item lack of processing power
-			\item different context
-		\end{itemize}
-	\item Why we need them in real time
+	\item \textbf{Activity feedback}:
+	A big selling point for wearables is the ability to track fitness activities in order to improve the health of the person wearing them.
+	Of course this tracking works by analysing sensor data, e.g. to count the steps or track the heart rate.
+	\item \textbf{Event triggers}:
+	Many wearables lack large user interfaces - in order to interact with them, one can use gestures.
+	A smartwatch can turn on its screen if you raise your wrist, but in the background a gesture detection system requires access to the device orientation and acceleration.
 \end{itemize}
-\lipsum[1]
-\lipsum[2]
 
+While some wearables can work as stand-alone devices, they usually depend on connected mobile devices to some extend.
+That is because the available space for hardware components is very limited, leading to a lower battery and CPU\footnote{Central processing unit} power.
+However, the device sensors on wearables can produce a large amount of data every second.
+This data may needs to be pre-processed, analysed or persisted - all of which requires a lot of processing power and will drain the device battery.
+Thus, heavy work loads like these should be done on a connected mobile device and presuppose a performant way to transfer data.
 
 \subsection{Project Scope}
-\begin{itemize}[noitemsep]
-	\item Describe bachelor project goal
-	\item Describe how we want to achieve that
-\end{itemize}
-\lipsum[1]
-\lipsum[2]
+The goal of my Bachelor project ``Passwords are Obsolete - Seamless authentication using wearables and mobile devices.'' was to authenticate a user by utilizing only data from devices that the user already owns. I opted for training classifiers to analyse how a user performes certain activities and to distinguish between behaviour patterns. These classifiers take raw sensor data or extracted features and perform different machine learning methods.
 
-\subsection{Problem Introduction/Description/Context}
-\begin{itemize}[noitemsep]
-	\item Brief thesis structure
-\end{itemize}
-\lipsum[1]
-
+This unsupervised learning approach required that a wearable can exchange data with a mobile device in a performant yet battery friendly way while keeping the delay in an acceptable range.
 
 \clearpage
