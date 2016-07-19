@@ -173,6 +173,7 @@ This is necessary because the |SensorEvent| holds references to objects that are
 The |DataBatch|\cite{sensordatalogger:databatch} class holds and manages a list of |Data| objects.
 It has a customizable capacity, one can add or remove |Data| and it will automatically remove old |Data| if the capacity has been reached.
 It also provides some convenience methods, for example to get |Data| from within a given time range.
+The following code would fill up a |DataBatch| with event data for each requested sensor type:
 
 \begin{lstlisting}[label=datahelperclasses]
 private Map<Integer, DataBatch> sensorDataBatches = new HashMap<>();
@@ -202,10 +203,52 @@ public DataBatch getDataBatch(int sensorType) {
 }
 \end{lstlisting}
 
-This code would fill up a |DataBatch| with event data for each requested sensor type.
-The batches are serializable and come in handy when writing data into a file or transferring it to another device.
+\subsection{Serializing Data}
+At some point, we have to convert the persisted data into byte arrays.
+We need to serialize objects in order to transfer it to another device or to write it into a file.
 
-\subsection{Transferring Data}
+The most straightforward solution is using JSON\footnote{JavaScript Object Notation}, which is a common data-interchange format.
+It is easy to read for humans and easy to parse for software, which is why we decided to use this format.
+Fortunately, POJOs can be directly mapped to JSON name-value pairs.
+Existing libraries like gson\footnote{https://github.com/google/gson} or jackson\footnote{https://github.com/FasterXML/jackson} are very well known and provide interfaces that make JSON handling very uncomplicated.
+
+The |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} class for example holds a list of |DataBatches| and is the responsible for exchaning sensor data with the connected mobile device.
+For convenience, all classes that we transfer implement methods that can be used for JSON serialization and deserialization.
+
+\begin{lstlisting}[label=serialization]
+@JsonIgnore
+public String toJson() {
+	String jsonData = null;
+	try {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		jsonData = mapper.writeValueAsString(this);
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	return jsonData;
+}
+
+public static DataRequestResponse fromJson(String json) {
+	DataRequestResponse dataRequestResponse = null;
+	try {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		dataRequestResponse = mapper.readValue(json, DataRequestResponse.class);
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	return dataRequestResponse;
+}
+\end{lstlisting}
+
+This code block is part of the |DataRequestResponse| class.
+The |toJson()| method writes the current object state into a JSON string, while |fromJson(String json)| creates a new |DataRequestResponse| object from a given JSON string.
+The JSON string can be converted to a byte array, which can be transferred as described in section \ref{sec:transferring}.
+It is crucial that the same character encoding is used, we stick with UTF-8.
+
+\subsection{Transferring Data}\label{sec:transferring}
 Actually using the sensor event data requires transferring it to a device with sufficient processing power.
 
 \subsubsection{General Approach}
@@ -274,9 +317,9 @@ A message consists of the following items:
 	\item \textbf{Path}:
 	A string that uniquely identifies the message action. 
 	\item \textbf{Payload}:
-	An optional byte array. We use this to pass serialized sensor data.
+	An optional byte array.
 \end{itemize}
-Payloads are not required by default because messages are a one-way communication mechanism, often used to only trigger RPCs\footnote{Remote procedure calls}.
+Payloads are not required by default because messages are a one-way communication mechanism, often used to only trigger RPCs\footnote{Remote procedure calls}. We use this to pass the serialized sensor data.
 
 \subsubsection{Sending Messages}
 
@@ -355,10 +398,17 @@ public void onMessageReceived(MessageEvent messageEvent) {
 }
 \end{lstlisting}
 
-Obviously, message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|, which can easily be deserialized from JSON using libraries like gson\footnote{https://github.com/google/gson}.
+Obviously, message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|.
 
 \improvement{Explain ChannelApi}
 
+\subsection{Putting it all together}
+We have described how we can access, persist and transfer sensor data.
+
+\improvement{Change section title}
+
+\subsubsection{General Approach}
+asdf
 
 \begin{itemize}[noitemsep]
 	\item What to transfer
