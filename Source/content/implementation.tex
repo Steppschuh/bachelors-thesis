@@ -204,6 +204,8 @@ public DataBatch getDataBatch(int sensorType) {
 \end{lstlisting}
 
 \subsection{Serializing Data}
+\label{sec:implementation:serializingdata}
+
 At some point, we have to convert the persisted data into byte arrays.
 We need to serialize objects in order to transfer it to another device or to write it into a file.
 
@@ -245,10 +247,11 @@ public static DataRequestResponse fromJson(String json) {
 
 This code block is part of the |DataRequestResponse| class.
 The |toJson()| method writes the current object state into a JSON string, while |fromJson(String json)| creates a new |DataRequestResponse| object from a given JSON string.
-The JSON string can be converted to a byte array, which can be transferred as described in section \ref{sec:transferring}.
+The JSON string can be converted to a byte array, which can be transferred as described in section \ref{sec:implementation:transferringdata}.
 It is crucial that the same character encoding is used, we stick with UTF-8.
 
-\subsection{Transferring Data}\label{sec:transferring}
+\subsection{Transferring Data}
+\label{sec:implementation:transferringdata}
 Actually using the sensor event data requires transferring it to a device with sufficient processing power.
 
 \subsubsection{General Approach}
@@ -319,7 +322,7 @@ A message consists of the following items:
 	\item \textbf{Payload}:
 	An optional byte array.
 \end{itemize}
-Payloads are not required by default because messages are a one-way communication mechanism, often used to only trigger RPCs\footnote{Remote procedure calls}. We use this to pass the serialized sensor data.
+Payloads are not required by default because messages are a one-way communication mechanism, often used to only trigger RPCs\footnote{Remote procedure calls}. We use this to pass a serialized |DataRequest|\cite{sensordatalogger:datarequest} or |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}.
 
 \subsubsection{Sending Messages}
 
@@ -378,7 +381,7 @@ private void sendMessageToNode(String nodeId, String path, byte[] payload) {
 \end{lstlisting}
 
 Note that we can pass |null| as a payload if no data is required.
-Instead of null, a serialized |DataRequest|\cite{sensordatalogger:datarequest} object could be passed.
+Instead of null, a serialized |DataRequest| object could be passed.
 The receiving nodes could deserialize it to find out which sensors are requested or at which interval they should report updates.
 
 \subsubsection{Receiving Messages}
@@ -403,39 +406,8 @@ Obviously, message paths should be static and final constants defined in a share
 \improvement{Explain ChannelApi}
 
 \subsection{Putting it all together}
-We have described how we can access, persist and transfer sensor data.
-
-\improvement{Change section title}
-
-\subsubsection{General Approach}
 asdf
 
-\begin{itemize}[noitemsep]
-	\item What to transfer
-		\begin{itemize}
-			\item suitable data types
-			\item serialization
-		\end{itemize}
-	\item How to transfer
-		\begin{itemize}
-			\item Available APIs and Protocols
-			\item Pros and cons of different methods
-		\end{itemize}
-\end{itemize}
-\lipsum[1]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
-\lipsum[1]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
-
+\improvement{Change section title}
 
 \clearpage
