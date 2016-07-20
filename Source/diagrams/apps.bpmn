@@ -6,13 +6,12 @@
   <process id="Process_1" isExecutable="false">
     <laneSet>
       <lane id="Lane_020bjnm" name="Mobile">
+        <flowNodeRef>StartEvent_0qf79xi</flowNodeRef>
         <flowNodeRef>Task_0ygdfkl</flowNodeRef>
         <flowNodeRef>Task_1qnjss5</flowNodeRef>
-        <flowNodeRef>StartEvent_0qf79xi</flowNodeRef>
-        <flowNodeRef>EndEvent_1v7ibhj</flowNodeRef>
         <flowNodeRef>Task_1pt6jll</flowNodeRef>
         <flowNodeRef>Task_0jxnmhc</flowNodeRef>
-        <flowNodeRef>EndEvent_003l8i4</flowNodeRef>
+        <flowNodeRef>EndEvent_1v7ibhj</flowNodeRef>
         <flowNodeRef>StartEvent_1m8jed6</flowNodeRef>
       </lane>
       <lane id="Lane_16vgpcb" name="Wearable">
@@ -28,66 +27,6 @@
         <flowNodeRef>IntermediateThrowEvent_0lg67aj</flowNodeRef>
       </lane>
     </laneSet>
-    <startEvent id="StartEvent_0qf79xi" name="">
-      <outgoing>SequenceFlow_14ygwp5</outgoing>
-    </startEvent>
-    <task id="Task_0ygdfkl" name="Detect available wearables">
-      <incoming>SequenceFlow_14ygwp5</incoming>
-      <outgoing>SequenceFlow_0ky9dd4</outgoing>
-    </task>
-    <task id="Task_1qnjss5" name="Generate sensor data request">
-      <incoming>SequenceFlow_0ky9dd4</incoming>
-      <outgoing>SequenceFlow_1444kij</outgoing>
-      <dataOutputAssociation id="DataOutputAssociation_1xmw6w4">
-        <targetRef>DataObjectReference_1wjqen0</targetRef>
-      </dataOutputAssociation>
-    </task>
-    <dataObjectReference id="DataObjectReference_1wjqen0" name="sensor data request" dataObjectRef="DataObject_0ldu7lf" />
-    <dataObject id="DataObject_0ldu7lf" />
-    <endEvent id="EndEvent_1v7ibhj" name="Send sensor data request">
-      <incoming>SequenceFlow_1444kij</incoming>
-      <property id="Property_0q3q9j2" name="__targetRef_placeholder" />
-      <dataInputAssociation id="DataInputAssociation_0z784gy">
-        <sourceRef>DataObjectReference_1wjqen0</sourceRef>
-        <targetRef>Property_0q3q9j2</targetRef>
-      </dataInputAssociation>
-      <messageEventDefinition />
-    </endEvent>
-    <sequenceFlow id="SequenceFlow_14ygwp5" sourceRef="StartEvent_0qf79xi" targetRef="Task_0ygdfkl" />
-    <sequenceFlow id="SequenceFlow_0ky9dd4" sourceRef="Task_0ygdfkl" targetRef="Task_1qnjss5" />
-    <sequenceFlow id="SequenceFlow_1444kij" sourceRef="Task_1qnjss5" targetRef="EndEvent_1v7ibhj" />
-    <startEvent id="StartEvent_1m8jed6" name="Sensor data request response received">
-      <outgoing>SequenceFlow_16bo3c8</outgoing>
-      <dataOutputAssociation id="DataOutputAssociation_1l7r835">
-        <targetRef>DataObjectReference_1jp5p45</targetRef>
-      </dataOutputAssociation>
-      <messageEventDefinition />
-    </startEvent>
-    <task id="Task_1pt6jll" name="Handle sensor data request response">
-      <incoming>SequenceFlow_16bo3c8</incoming>
-      <outgoing>SequenceFlow_1pwynbs</outgoing>
-      <property id="Property_15xonqd" name="__targetRef_placeholder" />
-      <dataInputAssociation id="DataInputAssociation_0pv7qqi">
-        <sourceRef>DataObjectReference_1jp5p45</sourceRef>
-        <targetRef>Property_15xonqd</targetRef>
-      </dataInputAssociation>
-    </task>
-    <sequenceFlow id="SequenceFlow_16bo3c8" sourceRef="StartEvent_1m8jed6" targetRef="Task_1pt6jll" />
-    <dataObjectReference id="DataObjectReference_1jp5p45" name="sensor data request response" dataObjectRef="DataObject_0p7reru" />
-    <dataObject id="DataObject_0p7reru" />
-    <task id="Task_0jxnmhc" name="Process sensor data">
-      <incoming>SequenceFlow_1pwynbs</incoming>
-      <outgoing>SequenceFlow_1q7x540</outgoing>
-      <dataOutputAssociation id="DataOutputAssociation_1dcddak">
-        <targetRef>DataStoreReference_14ku7yt</targetRef>
-      </dataOutputAssociation>
-    </task>
-    <sequenceFlow id="SequenceFlow_1pwynbs" sourceRef="Task_1pt6jll" targetRef="Task_0jxnmhc" />
-    <sequenceFlow id="SequenceFlow_1q7x540" sourceRef="Task_0jxnmhc" targetRef="EndEvent_003l8i4" />
-    <endEvent id="EndEvent_003l8i4">
-      <incoming>SequenceFlow_1q7x540</incoming>
-    </endEvent>
-    <dataStoreReference id="DataStoreReference_14ku7yt" name="processed sensor data" />
     <startEvent id="StartEvent_1opb4cj" name="Sensor data request received">
       <outgoing>SequenceFlow_1o5zda8</outgoing>
       <dataOutputAssociation id="DataOutputAssociation_03ir3fb">
@@ -170,6 +109,67 @@
     <sequenceFlow id="SequenceFlow_1ycdnif" sourceRef="Task_1vfnw7q" targetRef="Task_0nvtmsq" />
     <sequenceFlow id="SequenceFlow_0qg74b1" sourceRef="Task_0nvtmsq" targetRef="Task_03ukzej" />
     <sequenceFlow id="SequenceFlow_0c9vea0" sourceRef="Task_03ukzej" targetRef="IntermediateThrowEvent_0lg67aj" />
+    <startEvent id="StartEvent_0qf79xi" name="">
+      <outgoing>SequenceFlow_14ygwp5</outgoing>
+    </startEvent>
+    <task id="Task_0ygdfkl" name="Detect available wearables">
+      <incoming>SequenceFlow_14ygwp5</incoming>
+      <outgoing>SequenceFlow_0ky9dd4</outgoing>
+    </task>
+    <task id="Task_1qnjss5" name="Generate sensor data request">
+      <incoming>SequenceFlow_0ky9dd4</incoming>
+      <outgoing>SequenceFlow_1444kij</outgoing>
+      <dataOutputAssociation id="DataOutputAssociation_1xmw6w4">
+        <targetRef>DataObjectReference_1wjqen0</targetRef>
+      </dataOutputAssociation>
+    </task>
+    <dataObjectReference id="DataObjectReference_1wjqen0" name="sensor data request" dataObjectRef="DataObject_0ldu7lf" />
+    <dataObject id="DataObject_0ldu7lf" />
+    <task id="Task_1pt6jll" name="Handle sensor data request response">
+      <incoming>SequenceFlow_16bo3c8</incoming>
+      <outgoing>SequenceFlow_1pwynbs</outgoing>
+      <property id="Property_15xonqd" name="__targetRef_placeholder" />
+      <dataInputAssociation id="DataInputAssociation_0pv7qqi">
+        <sourceRef>DataObjectReference_1jp5p45</sourceRef>
+        <targetRef>Property_15xonqd</targetRef>
+      </dataInputAssociation>
+    </task>
+    <dataObjectReference id="DataObjectReference_1jp5p45" name="sensor data request response" dataObjectRef="DataObject_0p7reru" />
+    <dataObject id="DataObject_0p7reru" />
+    <task id="Task_0jxnmhc" name="Process sensor data">
+      <incoming>SequenceFlow_1pwynbs</incoming>
+      <outgoing>SequenceFlow_051uhk4</outgoing>
+      <dataOutputAssociation id="DataOutputAssociation_1dcddak">
+        <targetRef>DataStoreReference_14ku7yt</targetRef>
+      </dataOutputAssociation>
+    </task>
+    <dataStoreReference id="DataStoreReference_14ku7yt" name="processed sensor data" />
+    <intermediateThrowEvent id="EndEvent_1v7ibhj" name="Send sensor data request">
+      <incoming>SequenceFlow_1444kij</incoming>
+      <outgoing>SequenceFlow_160kfsg</outgoing>
+      <property id="Property_0fvu4c5" name="__targetRef_placeholder" />
+      <dataInputAssociation id="DataInputAssociation_0z784gy">
+        <sourceRef>DataObjectReference_1wjqen0</sourceRef>
+        <targetRef>Property_0fvu4c5</targetRef>
+      </dataInputAssociation>
+      <messageEventDefinition />
+    </intermediateThrowEvent>
+    <intermediateCatchEvent id="StartEvent_1m8jed6" name="Sensor data request response received">
+      <incoming>SequenceFlow_160kfsg</incoming>
+      <incoming>SequenceFlow_051uhk4</incoming>
+      <outgoing>SequenceFlow_16bo3c8</outgoing>
+      <dataOutputAssociation id="DataOutputAssociation_1ht72k3">
+        <targetRef>DataObjectReference_1jp5p45</targetRef>
+      </dataOutputAssociation>
+      <messageEventDefinition />
+    </intermediateCatchEvent>
+    <sequenceFlow id="SequenceFlow_14ygwp5" sourceRef="StartEvent_0qf79xi" targetRef="Task_0ygdfkl" />
+    <sequenceFlow id="SequenceFlow_0ky9dd4" sourceRef="Task_0ygdfkl" targetRef="Task_1qnjss5" />
+    <sequenceFlow id="SequenceFlow_1444kij" sourceRef="Task_1qnjss5" targetRef="EndEvent_1v7ibhj" />
+    <sequenceFlow id="SequenceFlow_16bo3c8" sourceRef="StartEvent_1m8jed6" targetRef="Task_1pt6jll" />
+    <sequenceFlow id="SequenceFlow_1pwynbs" sourceRef="Task_1pt6jll" targetRef="Task_0jxnmhc" />
+    <sequenceFlow id="SequenceFlow_051uhk4" sourceRef="Task_0jxnmhc" targetRef="StartEvent_1m8jed6" />
+    <sequenceFlow id="SequenceFlow_160kfsg" sourceRef="EndEvent_1v7ibhj" targetRef="StartEvent_1m8jed6" />
   </process>
   <bpmndi:BPMNDiagram id="BpmnDiagram_1">
     <bpmndi:BPMNPlane id="BpmnPlane_1" bpmnElement="Collaboration_0irtzya">
@@ -183,19 +183,19 @@
         <omgdc:Bounds x="293" y="304" width="947" height="333" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_0qf79xi_di" bpmnElement="StartEvent_0qf79xi">
-        <omgdc:Bounds x="339" y="195" width="36" height="36" />
+        <omgdc:Bounds x="339" y="213" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="312" y="231" width="90" height="20" />
+          <omgdc:Bounds x="312" y="249" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0ygdfkl_di" bpmnElement="Task_0ygdfkl">
-        <omgdc:Bounds x="436" y="173" width="100" height="80" />
+        <omgdc:Bounds x="436" y="191" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_14ygwp5_di" bpmnElement="SequenceFlow_14ygwp5">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="375" y="213" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="436" y="213" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="375" y="231" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="436" y="231" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="360.5" y="188" width="90" height="20" />
+          <omgdc:Bounds x="361" y="206" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_08kapgo_di" bpmnElement="StartEvent_1opb4cj">
@@ -215,28 +215,22 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Task_1qnjss5_di" bpmnElement="Task_1qnjss5">
-        <omgdc:Bounds x="572" y="173" width="100" height="80" />
+        <omgdc:Bounds x="572" y="191" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0ky9dd4_di" bpmnElement="SequenceFlow_0ky9dd4">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="536" y="213" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="572" y="213" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="536" y="231" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="572" y="231" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="509" y="188" width="90" height="20" />
+          <omgdc:Bounds x="509" y="206" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1444kij_di" bpmnElement="SequenceFlow_1444kij">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="672" y="213" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="726" y="213" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="672" y="231" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="726" y="231" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="654" y="188" width="90" height="20" />
+          <omgdc:Bounds x="654" y="206" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="EndEvent_0nxr4s8_di" bpmnElement="EndEvent_1v7ibhj">
-        <omgdc:Bounds x="726" y="195" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="699" y="231" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ns7zne_di" bpmnElement="ExclusiveGateway_0ns7zne" isMarkerVisible="true">
         <omgdc:Bounds x="623" y="437" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -271,20 +265,20 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="DataObjectReference_1wjqen0_di" bpmnElement="DataObjectReference_1wjqen0">
-        <omgdc:Bounds x="668" y="84" width="36" height="50" />
+        <omgdc:Bounds x="668" y="102" width="36" height="50" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="641" y="134" width="90" height="20" />
+          <omgdc:Bounds x="641" y="152" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DataOutputAssociation_1xmw6w4_di" bpmnElement="DataOutputAssociation_1xmw6w4">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="622" y="173" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="622" y="109" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="668" y="109" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="622" y="191" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="622" y="127" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="668" y="127" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataInputAssociation_0z784gy_di" bpmnElement="DataInputAssociation_0z784gy">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="706" y="109" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="744" y="109" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="744" y="195" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="704" y="127" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="744" y="127" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="744" y="213" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1445b5o_di" bpmnElement="SequenceFlow_1445b5o">
         <omgdi:waypoint xsi:type="omgdc:Point" x="536" y="462" />
@@ -405,71 +399,81 @@
           <omgdc:Bounds x="1167" y="571" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="StartEvent_0irjjyy_di" bpmnElement="StartEvent_1m8jed6">
-        <omgdc:Bounds x="828" y="195" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="801" y="231" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1pt6jll_di" bpmnElement="Task_1pt6jll">
-        <omgdc:Bounds x="914" y="173" width="100" height="80" />
+        <omgdc:Bounds x="914" y="191" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_16bo3c8_di" bpmnElement="SequenceFlow_16bo3c8">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="864" y="213" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="914" y="213" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="864" y="231" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="914" y="231" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="844" y="188" width="90" height="20" />
+          <omgdc:Bounds x="844" y="206" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="DataObjectReference_1jp5p45_di" bpmnElement="DataObjectReference_1jp5p45">
-        <omgdc:Bounds x="886" y="84" width="36" height="50" />
+        <omgdc:Bounds x="886" y="102" width="36" height="50" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="859" y="134" width="90" height="20" />
+          <omgdc:Bounds x="859" y="152" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1l7r835_di" bpmnElement="DataOutputAssociation_1l7r835">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="846" y="193" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="846" y="109" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="886" y="109" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataInputAssociation_0pv7qqi_di" bpmnElement="DataInputAssociation_0pv7qqi">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="922" y="109" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="964" y="109" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="964" y="173" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="922" y="127" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="964" y="127" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="964" y="191" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Task_0jxnmhc_di" bpmnElement="Task_0jxnmhc">
-        <omgdc:Bounds x="1049" y="173" width="100" height="80" />
+        <omgdc:Bounds x="1049" y="191" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1pwynbs_di" bpmnElement="SequenceFlow_1pwynbs">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="1014" y="213" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="1049" y="213" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1014" y="231" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1049" y="231" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="986.5" y="188" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="EndEvent_003l8i4_di" bpmnElement="EndEvent_003l8i4">
-        <omgdc:Bounds x="1184" y="195" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="1157" y="231" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1q7x540_di" bpmnElement="SequenceFlow_1q7x540">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="1149" y="213" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="1184" y="213" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="1121.5" y="188" width="90" height="20" />
+          <omgdc:Bounds x="987" y="206" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="DataStoreReference_14ku7yt_di" bpmnElement="DataStoreReference_14ku7yt">
-        <omgdc:Bounds x="1139" y="84" width="50" height="50" />
+        <omgdc:Bounds x="1139" y="102" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="1119" y="134" width="90" height="20" />
+          <omgdc:Bounds x="1119" y="152" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DataOutputAssociation_1dcddak_di" bpmnElement="DataOutputAssociation_1dcddak">
-        <omgdi:waypoint xsi:type="omgdc:Point" x="1099" y="173" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="1099" y="109" />
-        <omgdi:waypoint xsi:type="omgdc:Point" x="1138" y="109" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1110" y="191" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1110" y="127" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1139" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_0z782mi_di" bpmnElement="EndEvent_1v7ibhj">
+        <omgdc:Bounds x="726" y="213" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="699" y="249" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_00nyyzq_di" bpmnElement="StartEvent_1m8jed6">
+        <omgdc:Bounds x="828" y="213" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="801" y="249" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1ht72k3_di" bpmnElement="DataOutputAssociation_1ht72k3">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="846" y="213" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="846" y="127" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="886" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_160kfsg_di" bpmnElement="SequenceFlow_160kfsg">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="762" y="231" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="828" y="231" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="750" y="206" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_051uhk4_di" bpmnElement="SequenceFlow_051uhk4">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1087" y="191" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1087" y="83" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="818" y="83" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="818" y="197" />
+        <omgdi:waypoint xsi:type="omgdc:Point" x="835" y="216" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="908.4349423696331" y="52.02065427026693" width="90" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

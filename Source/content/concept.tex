@@ -1,20 +1,42 @@
 \section{Concept}
 \label{sec:concept}
 
-As mentioned in \ref{sec:intro}, data produced by sensors on wearables needs to be transferred to mobile devices in order to be processed.
+As mentioned in section \ref{sec:intro}, data produced by sensors on wearables needs to be transferred to mobile devices in order to be processed.
 All Android Wear devices are connected via Bluetooth, we will use this connection to exhange the data with the mobile device.
 
-\subsection{Apps}
-We need an app on every device that we want to use.
 
-\subsubsection{Wearable App}
-To access the sensor data, an app needs to be deployed on the wearable device. It is responsible of:
+\subsection{Apps}
+\label{sec:concept:apps}
+
+In order to fulfill the requirements mentioned in section \ref{sec:intro:scope}, we need two different apps to be deployed.
+One on the mobile device, another one on each wearable device.
+
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{diagrams/apps.png}
+	\caption[Caption for bpmn]{App process model}
+	\label{fig:diagrams:apps}
+\end{figure}
+
+Basically, the \textbf{mobile app} is responsible of:
 \begin{itemize}[noitemsep]
-	\item asdf
-	\item asdfasdf
+	\item Sending sensor data requests
+	\item Handling sensor data request responses
+	\item Processing received sensor data
 \end{itemize}
 
-\subsubsection{Mobile App}
+Once started, it sends a sensor data request to connected wearable devices, which contains information about which sensor data it wants to receive and at which interval (see section \ref{sec:implementation:transferringdata:send}).
+The app then listens for incoming sensor data request responses, which contain the actual sensor data (see section \ref{sec:implementation:transferringdata:receive}).
+This data will be processed depending on the usecase.
 
+The \textbf{wearable app} on the other side takes care of:
+\begin{itemize}[noitemsep]
+	\item Handling sensor data requests
+	\item Accessing and persisting sensor data
+	\item Sending sensor data request responses
+\end{itemize}
+
+After deployment, it waits for incoming sensor data requests.
+It registers the required sensor listeners and starts monitoring data changes (see section \ref{sec:implementation:monitoringdatachanges}).
+Updated sensor data request responses will be periodically sent to the mobile app until the sensor data request changes.
 
 \clearpage

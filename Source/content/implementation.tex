@@ -1,7 +1,7 @@
 \section{Implementation}
 \label{sec:implementation}
 
-To showcase and benchmark my work, I created an Android app that visualizes sensor data from the device it runs on and also from connected Android Wear devices.
+To showcase and benchmark our work, we created an Android app that visualizes sensor data from the device it runs on and also from connected Android Wear devices.
 The app is called Sensor Data Logger (\ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
 
 \begin{figure}[H]
@@ -142,7 +142,7 @@ public class SensorActivity extends Activity implements SensorEventListener {
 
 This very basic example activity would print accelerometer data to the console once deployed.
 Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}.
-I presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle\improvement{Explain} works.
+We presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle\improvement{Explain} works.
 
 \subsection{Persisting Data}
 Once a sensor is reporting data, a new |SensorEvent| will be passed to the callback every few milliseconds.
@@ -164,8 +164,8 @@ public void onSensorChanged(SensorEvent event) {
 }
 \end{lstlisting}
 
-For my project, I needed to look back at sensor events from the past few seconds in order to detect patterns and to extract features.
-I created some helper classes\cite{sensordatalogger:datapackage} that allowed me to wrap sensor event data in POJOs\footnote{Plain old Java objects}, this way they could be persisted in a batch-like structure.
+For our project, we needed to look back at sensor events from the past few seconds in order to detect patterns and to extract features.
+We created some helper classes\cite{sensordatalogger:datapackage} that allowed us to wrap sensor event data in POJOs\footnote{Plain old Java objects}, this way they could be persisted in a batch-like structure.
 
 There is a |Data|\cite{sensordatalogger:data} class which can wrap the values of a |SensorEvent|, its source and a timestamp.
 This is necessary because the |SensorEvent| holds references to objects that aren't required multiple times and because there's no public constructor available.
@@ -214,7 +214,7 @@ It is easy to read for humans and easy to parse for software, which is why we de
 Fortunately, POJOs can be directly mapped to JSON name-value pairs.
 Existing libraries like gson\footnote{https://github.com/google/gson} or jackson\footnote{https://github.com/FasterXML/jackson} are very well known and provide interfaces that make JSON handling very uncomplicated.
 
-The |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} class for example holds a list of |DataBatches| and is the responsible for exchaning sensor data with the connected mobile device.
+The |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} class for example holds a list of |DataBatches| and is responsible for exchaning sensor data with the connected mobile device.
 For convenience, all classes that we transfer implement methods that can be used for JSON serialization and deserialization.
 
 \begin{lstlisting}[label=serialization]
@@ -325,6 +325,7 @@ A message consists of the following items:
 Payloads are not required by default because messages are a one-way communication mechanism, often used to only trigger RPCs\footnote{Remote procedure calls}. We use this to pass a serialized |DataRequest|\cite{sensordatalogger:datarequest} or |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}.
 
 \subsubsection{Sending Messages}
+\label{sec:implementation:transferringdata:send}
 
 In order to send a message to a connected wearable, the |Node|\cite{androiddocs:node} representation of that device is required.
 We can use the |NodeApi|\cite{androiddocs:nodeapi} to query connected nodes:
@@ -385,6 +386,7 @@ Instead of null, a serialized |DataRequest| object could be passed.
 The receiving nodes could deserialize it to find out which sensors are requested or at which interval they should report updates.
 
 \subsubsection{Receiving Messages}
+\label{sec:implementation:transferringdata:receive}
 
 Apps running on the wearables need to implement the |MessageListener|\cite{androiddocs:messagelistener} interface in order to get notified about incoming messages. These listeners have to be registered using the |MessageApi.addListener()| function.
 
