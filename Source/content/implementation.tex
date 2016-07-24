@@ -57,7 +57,7 @@ if (accelerometer != null) {
 If a sensor is available, public methods from the |Sensor|\cite{androiddocs:sensor} class can be used to get detailed information about it.
 The name, vendor, version, data range and reporting delay are useful properties, especially because one device can have multiple sensors of the same type.
 
-\subsubsection{Monitoring data changes}
+\subsubsection{Monitoring Data Changes}
 \label{sec:implementation:monitoringdatachanges}
 In order to get access to the actual data, a |SensorEventListener|\cite{androiddocs:sensoreventlistener} needs to be registered at the |SensorManager| instance. The |SensorEventListener| is an interface which exposes two callback methods:
 
@@ -92,9 +92,7 @@ When registering a |SensorEventListener|, a delay in microseconds is also passed
 It's worth to notice that this value is more like a suggestion, as other applications and the system can alter it.
 Because the reporting delay can impact the battery life of the device, some manufacturers will lower the reporting interval when the device is idle or the display is turned off.
 
-\clearpage
-
-\subsubsection{Monitoring lifecycle changes}
+\subsubsection{Monitoring Lifecycle Changes}
 \label{sec:implementation:monitoringlifecyclechanges}
 Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user leaves the application.
 Hence, one should always unregister listeners as soon as possible in order to prevent battery drain:

@@ -27,13 +27,23 @@ While some wearables can work as stand-alone devices, they usually depend on con
 That is because the available space for hardware components is very limited, leading to a lower battery and CPU\footnote{Central processing unit} power.
 However, the device sensors on wearables can produce a large amount of data every second.
 This data may needs to be pre-processed, analysed or persisted - all of which requires a lot of processing power and will drain the device battery.
-Thus, heavy work loads like these should be done on a connected mobile device and presuppose a performant way to transfer data.
+Thus, heavy work loads like these should be done on a connected mobile device and require a performant way to transfer data.
 
 \subsection{Project Scope}
 \label{sec:intro:scope}
 The goal of our Bachelor project ``Passwords are Obsolete - Seamless authentication using wearables and mobile devices.'' was to authenticate a user by utilizing only data from devices that the user already owns.
 We opted for training classifiers to analyse how a user performs certain activities and to distinguish between behaviour patterns. These classifiers take raw sensor data or extracted features and perform different machine learning methods.
 
-This unsupervised learning approach required that a wearable can exchange data with a mobile device in a performant jet battery friendly way while keeping the delay in an acceptable range.
+Our unsupervised learning approach required that a wearable can exchange data with a mobile device in a performant jet battery friendly way while keeping the delay in an acceptable range.
+This requirement is the topic of this thesis, we will implement and evaluate our solution in the upcoming sections.
+
+\subsection{Structure}
+\label{sec:intro:structure}
+
+We will start with \textbf{Related Work} (\ref{sec:relatedwork}), where we briefly mention similar projects and papers related to this topic.
+After that, we will let you know why we decided to develop for the Android platform in the \textbf{Devices} section (\ref{sec:devices}).
+In \textbf{Concept} (\ref{sec:concept}), we will explain how the basic app setup on mobile and wearable devices needs to look like.
+Actual code samples will be part of the \textbf{Implementation} section (\ref{sec:implementation}), where we provide detailed examples for every required functionality.
+Finally, \textbf{Evaluation} (\ref{sec:evaluation}) will verify our solution using benchmarks and comparisons.
 
 \clearpage
