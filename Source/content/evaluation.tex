@@ -14,21 +14,64 @@ asdf
 When transmitting data, we had to
 
 
-In order to reduce the serialization overhead, we collected sensor data in DataBatches|\cite{sensordatalogger:databatch} before transferring it to a mobile device.
+In order to reduce the serialization overhead, we collect sensor data in |DataBatches|\cite{sensordatalogger:databatch} before transferring it to a mobile device.
 This approach drastically improves the \textit{delay per sent byte} ratio, because we have to serialize and deserialize less messages and less meta data.
 However, it also delays the data depending on the batch capacity.
 Just like buffering a stream, this is a trade-off between beeing less efficient or beeing less real-time.
 
+For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we batched sensor data for \textbf{50 milliseconds} before transferring it:
+
 \begin{table}[H]
-	\caption{Transmission Delay}
-	\label{table:benchmark:transmissiondelay}
 	\begin{tabular}{rrrl}
-		delay in ns		& bytes		& delay / bytes		& comment \\ \hline
-		1,266,250,000	& 200		& ~6,331,250		& ~1 update (|SENSOR_DELAY_NORMAL|)
+		delay in ns       & bytes             & delay / bytes     & comment \\ \hline
+
+		1,266,250,000     & 200               & \textasciitilde6,331,250        & \textasciitilde1 update (|SENSOR_DELAY_NORMAL|) \\
+		1,271,160,000     & 482               & \textasciitilde2,637,261        & \textasciitilde2 updates (|SENSOR_DELAY_UI|) \\
+		1,285,510,000     & 1,056             & \textasciitilde1,217,339        & \textasciitilde6 updates (|SENSOR_DELAY_GAME|) \\
+		1,306,400,000     & 3,599             & \textasciitilde362,989          & \textasciitilde24 updates (|SENSOR_DELAY_FASTEST|) \\
 	\end{tabular}
+	\caption{Transmission delay, 50ms batches}
+	\label{table:benchmark:transmissiondelay:50ms}
 \end{table}
 
+When using |SENSOR_DELAY_NORMAL|, the sensor reports only about one update during the batching duration.
+This basically results in no improvement at all because we still have to deal with the serialization overhead for each update.
+By collecting more updates in the same time frame (in this case by switching to |SENSOR_DELAY_FASTEST|), we were able to boost the efficency by 94.3\% while only raising the delay by 3.2\%.
 
+We wanted to improve even further and increased the batching duration to 500 milliseconds, as measured in table \ref{table:benchmark:transmissiondelay:500ms}:
+
+\begin{table}[H]
+	\begin{tabular}{rrrl}
+		delay in ns       & bytes             & delay / bytes     & comment \\ \hline
+
+		1,329,120,000     & 625               & \textasciitilde2,126,592        & \textasciitilde3 updates (|SENSOR_DELAY_NORMAL|) \\
+		1,331,970,000     & 1,340             & \textasciitilde994,007          & \textasciitilde8 updates (|SENSOR_DELAY_UI|) \\
+		1,373,370,000     & 8,262             & \textasciitilde166,227          & \textasciitilde28 updates (|SENSOR_DELAY_GAME|) \\
+		1,412,810,000     & 16,951            & \textasciitilde83,346           & \textasciitilde118 updates (|SENSOR_DELAY_FASTEST|) \\
+	\end{tabular}
+	\caption{Transmission delay, 500ms batches}
+	\label{table:benchmark:transmissiondelay:500ms}
+\end{table}
+
+Increasing the duration resulted in more updates per transferred |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}.
+Compared to the first measurement in table \ref{table:benchmark:transmissiondelay:50ms}, we were able to transfer 84 times more bytes at the cost of only 147 milliseconds.
+
+For some use cases, less frequent data might be sufficient. Instead of altering the reporting delay of the sensor, we can also sent data from multiple sensors simultaneously. Table \ref{table:benchmark:transmissiondelay:multiple} shows how multiple, 3-dimensional sensors perform:
+
+\begin{table}[H]
+	\begin{tabular}{rrrl}
+		delay in ns       & bytes             & delay / bytes     & comment \\ \hline
+
+		1,452,400,000     & 16,690            & \textasciitilde87,022           & \textasciitilde116 updates,  1 sensor \\
+		1,489,100,000     & 22,819            & \textasciitilde65,257           & \textasciitilde246 updates,  2 sensors \\
+		1,752,420,000     & 60,679            & \textasciitilde28,880           & \textasciitilde512 updates,  4 sensors \\
+		2,842,640,000     & 177,495           & \textasciitilde16,015           & \textasciitilde1504 updates, 8 sensors \\
+	\end{tabular}
+	\caption{Transmission delay, multiple sensors}
+	\label{table:benchmark:transmissiondelay:multiple}
+\end{table}
+
+Keeping in mind that this transfer is performed multiple hundreds or thousands times, these efficency improvements sum up and save a lot of computing and battery power.
 
 \begin{itemize}[noitemsep]
 	\item Transferred data per second
