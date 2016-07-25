@@ -5,21 +5,31 @@
 \label{sec:evaluation:benchmarks}
 In order to measure how performant different implementations are, we created different benchmarks.
 These helped us to evaluate which parts of our solution require optimization.
+Each benchmark contains the average result of 500 consequtive measurements and has been validated multiple times.
 
 \subsubsection{Setup}
-asdf
+For the benchmarks, we created a |TimeTracker|\cite{sensordatalogger:timetracker} that is capable of measuring the delay in nanoseconds between events. It also provides convenience functions for merging repetitive measurements to avoid round-off errors.
 
+We measured on our test devices, a Nexus 9 tablet (released November 2014, SDK 24) and a LG G Watch R (released October 2014, SDK 23). Both run the latest Android version and are a good representation for currently available high-end devices.
+The devices were placed next to each other on a table, with quite a lot of other electronic devices nearby.
+We also altered the distance between the devices but figured out that it had no significant impact on the measurements.
 
 \subsubsection{Data Transmission Delay}
-When transmitting data, we had to
+The most important performance indicator is the time it takes between these events: \textit{A sensor has updated values} (on the wearable device) and \textit{Updated sensor values have been received} (on the mobile device). For this benchmark, the measured operations include:
 
+\begin{itemize}[noitemsep]
+	\item Creating |DataBatches|\cite{sensordatalogger:databatch} with the latest sensor data (wearable)
+	\item Serializing a |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} containing that data (wearable)
+	\item Transferring the data using the |MessageApi|\cite{androiddocs:messageapi} (wearable \& mobile)
+	\item Deserializing the |DataRequestResponse| (mobile)
+\end{itemize}
 
 In order to reduce the serialization overhead, we collect sensor data in |DataBatches|\cite{sensordatalogger:databatch} before transferring it to a mobile device.
 This approach drastically improves the \textit{delay per sent byte} ratio, because we have to serialize and deserialize less messages and less meta data.
 However, it also delays the data depending on the batch capacity.
 Just like buffering a stream, this is a trade-off between beeing less efficient or beeing less real-time.
 
-For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we batched sensor data for \textbf{50 milliseconds} before transferring it:
+For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we batched sensor data for \textbf{50 milliseconds} before transferring it while altering the sensor delay:
 
 \begin{table}[H]
 	\begin{tabular}{rrrl}
@@ -38,7 +48,7 @@ When using |SENSOR_DELAY_NORMAL|, the sensor reports only about one update durin
 This basically results in no improvement at all because we still have to deal with the serialization overhead for each update.
 By collecting more updates in the same time frame (in this case by switching to |SENSOR_DELAY_FASTEST|), we were able to boost the efficency by 94.3\% while only raising the delay by 3.2\%.
 
-We wanted to improve even further and increased the batching duration to 500 milliseconds, as measured in table \ref{table:benchmark:transmissiondelay:500ms}:
+We wanted to improve even further and increased the batching duration to \textbf{500 milliseconds}, as measured in table \ref{table:benchmark:transmissiondelay:500ms}:
 
 \begin{table}[H]
 	\begin{tabular}{rrrl}
@@ -56,7 +66,7 @@ We wanted to improve even further and increased the batching duration to 500 mil
 Increasing the duration resulted in more updates per transferred |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}.
 Compared to the first measurement in table \ref{table:benchmark:transmissiondelay:50ms}, we were able to transfer 84 times more bytes at the cost of only 147 milliseconds.
 
-For some use cases, less frequent data might be sufficient. Instead of altering the reporting delay of the sensor, we can also sent data from multiple sensors simultaneously. Table \ref{table:benchmark:transmissiondelay:multiple} shows how multiple, 3-dimensional sensors perform:
+For some use cases, less frequent data might be sufficient. Instead of altering the reporting delay of the sensor, we can also sent data from multiple sensors simultaneously. Table \ref{table:benchmark:transmissiondelay:multiple} shows how \textbf{multiple, 3-dimensional sensors} perform:
 
 \begin{table}[H]
 	\begin{tabular}{rrrl}
@@ -71,7 +81,7 @@ For some use cases, less frequent data might be sufficient. Instead of altering 
 	\label{table:benchmark:transmissiondelay:multiple}
 \end{table}
 
-Keeping in mind that this transfer is performed multiple hundreds or thousands times, these efficency improvements sum up and save a lot of computing and battery power.
+Keeping in mind that this transfer is performed multiple hundreds or thousands times, these efficency improvements sum up and save a lot of computing and battery power on both devices.
 
 \begin{itemize}[noitemsep]
 	\item Transferred data per second
