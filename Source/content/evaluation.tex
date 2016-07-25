@@ -29,7 +29,7 @@ This approach drastically improves the \textit{delay per sent byte} ratio, becau
 However, it also delays the data depending on the batch capacity.
 Just like buffering a stream, this is a trade-off between beeing less efficient or beeing less real-time.
 
-For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we batched sensor data for \textbf{50 milliseconds} before transferring it while altering the sensor delay:
+For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we batched sensor data from the accelerometer for \textbf{50 milliseconds} before transferring it while altering the sensor delay:
 
 \begin{table}[H]
 	\begin{tabular}{rrrl}
@@ -83,12 +83,12 @@ For some use cases, less frequent data might be sufficient. Instead of altering 
 
 Keeping in mind that this transfer is performed multiple hundreds or thousands times, these efficency improvements sum up and save a lot of computing and battery power on both devices.
 
-\begin{itemize}[noitemsep]
-	\item Transferred data per second
-	\item Delay
-	\item Serialization overhead
-	\item Battery impact
-	\item Different devices / API versions
-\end{itemize}
+\subsubsection{Serialization}
+As mentioned before, serialization and deserialization are responsible for a large part of the processing time.
+It is curcial that this part is optimized, that's why we opted for utilizing established libraries.
+Namely, we decided to use jackson\footnote{https://github.com/FasterXML/jackson} because of its performance advantage compared to other well known libraries like gson\footnote{https://github.com/google/gson}.
+
+There are benchmarks available that compared these JSON libraries, which is why we won't present new measurements here.
+The key take-away is that jackson is faster in handling larger files, while gson should be used for smaller files\footnote{http://blog.takipi.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/}.
 
 \clearpage
