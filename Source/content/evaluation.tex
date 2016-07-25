@@ -2,6 +2,34 @@
 \label{sec:evaluation}
 
 \subsection{Benchmarks}
+\label{sec:evaluation:benchmarks}
+In order to measure how performant different implementations are, we created different benchmarks.
+These helped us to evaluate which parts of our solution require optimization.
+
+\subsubsection{Setup}
+asdf
+
+
+\subsubsection{Data Transmission Delay}
+When transmitting data, we had to
+
+
+In order to reduce the serialization overhead, we collected sensor data in DataBatches|\cite{sensordatalogger:databatch} before transferring it to a mobile device.
+This approach drastically improves the \textit{delay per sent byte} ratio, because we have to serialize and deserialize less messages and less meta data.
+However, it also delays the data depending on the batch capacity.
+Just like buffering a stream, this is a trade-off between beeing less efficient or beeing less real-time.
+
+\begin{table}[H]
+	\caption{Transmission Delay}
+	\label{table:benchmark:transmissiondelay}
+	\begin{tabular}{rrrl}
+		delay in ns		& bytes		& delay / bytes		& comment \\ \hline
+		1,266,250,000	& 200		& ~6,331,250		& ~1 update (|SENSOR_DELAY_NORMAL|)
+	\end{tabular}
+\end{table}
+
+
+
 \begin{itemize}[noitemsep]
 	\item Transferred data per second
 	\item Delay

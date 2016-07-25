@@ -2,7 +2,7 @@
 \label{sec:implementation}
 
 To showcase and benchmark our work, we created an Android app that visualizes sensor data from the device it runs on and also from connected Android Wear devices.
-The app is called Sensor Data Logger (\ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
+The app is called Sensor Data Logger (see figure \ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
 
 \begin{figure}[H]
 	\href{https://github.com/Steppschuh/Sensor-Data-Logger}{
@@ -12,7 +12,7 @@ The app is called Sensor Data Logger (\ref{fig:sensorDataLoggerApp}) and can be 
 	\label{fig:sensorDataLoggerApp}
 \end{figure}
 
-Code samples in the following sections are snippets from this project and can be seen in context in the GitHub repository\footnote{\href{https://github.com/Steppschuh/Sensor-Data-Logger}{https://github.com/Steppschuh/Sensor-Data-Logger}}.
+Code samples in the following sections are snippets from this project and can be seen in context in our GitHub repository\footnote{\href{https://github.com/Steppschuh/Sensor-Data-Logger}{https://github.com/Steppschuh/Sensor-Data-Logger}}.
 
 \clearpage
 
@@ -163,7 +163,7 @@ public void onSensorChanged(SensorEvent event) {
 \end{lstlisting}
 
 For our project, we needed to look back at sensor events from the past few seconds in order to detect patterns and to extract features.
-We created some helper classes\cite{sensordatalogger:datapackage} that allowed us to wrap sensor event data in POJOs\footnote{Plain old Java objects}, this way they could be persisted in a batch-like structure.
+We created some helper classes\cite{sensordatalogger:datapackage} that allowed us to wrap sensor event data in POJOs\footnote{Plain Old Java Objects}, this way they could be persisted in a batch-like structure.
 
 There is a |Data|\cite{sensordatalogger:data} class which can wrap the values of a |SensorEvent|, its source and a timestamp.
 This is necessary because the |SensorEvent| holds references to objects that aren't required multiple times and because there's no public constructor available.
@@ -253,7 +253,7 @@ It is crucial that the same character encoding is used, we stick with UTF-8.
 Actually using the sensor event data requires transferring it to a device with sufficient processing power.
 
 \subsubsection{General Approach}
-In a world where the IoT\footnote{Internet of Things} is a big topic, data is usually uploaded to the cloud and processed on powerfull servers.
+In a world where the IoT\footnote{Internet of Things} is a big topic, data is usually uploaded to the cloud and processed on powerful servers.
 Although one could do that from a mobile device, this approach would produce a huge amount of traffic and ultimately lead to privacy concerns.
 
 \begin{figure}[H]
