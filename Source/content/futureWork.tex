@@ -1,5 +1,29 @@
 \section{Future Work}
-\label{sec:future_work}
+\label{sec:futurework}
+
+\subsection{Channel API}
+In our implementation, we utilized the |MessageApi|\cite{androiddocs:messageapi} because it is recommended for smaller messages.
+We also used it for other project related purposes, so we sticked to it for consistency.
+However, we figured out that there might be an even more performant solution:
+
+The |ChannelApi|\cite{androiddocs:channelapi} is also part of the |WearableApi|\cite{androiddocs:wearable}, accessible through the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
+It should be used to transfer large files, just like the already mentioned |DataApi|\cite{androiddocs:dataapi}.
+In contrast to the |DataApi|, it doesn't synchronize |Assets|\cite{androiddocs:asset} accross the devices.
+Instead, it creates a bidirectional channel that the sending and receiving node may read or write to.
+Data can be exchanged using byte streams, which makes the |ChannelApi| very suitable for transferring streamed content like music - or even sensor data.
+
+Unfortunately we weren't able to evaluate whether implementing the |ChannelApi| would increase our performance jet.
+
+\subsection{Compression}
+In order to decrease the amount of data transferred with each |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}, we can try to reduce the overhead created by meta data.
+This overhead can only be reduced to a certain amount, though.
+
+Each sensor data update is an array of values, and can have up to 9 dimensions (depending on the sensor).
+Each dimension holds a single-precision 32-bit IEEE 754 floating point.
+In our use case, we didn't need values with that high precision.
+Instead, rounded values would be sufficient for our algorithms.
+
+By switching the data type for our data arrays from floats to shorts (16-bit signed two's complement integers), we could save about 50\% of transferred bytes. However, it still has to be evaluated whether the loss of precision and the processing power required for converting the data justifies this saving.
 
 \subsection{Open Research Questions}
 

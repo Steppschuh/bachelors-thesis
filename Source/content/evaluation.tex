@@ -10,7 +10,7 @@ Each benchmark contains the average result of 500 consequtive measurements and h
 \subsubsection{Setup}
 For the benchmarks, we created a |TimeTracker|\cite{sensordatalogger:timetracker} that is capable of measuring the delay in nanoseconds between events. It also provides convenience functions for merging repetitive measurements to avoid round-off errors.
 
-We measured on our test devices, a Nexus 9 tablet (released November 2014, SDK 24) and a LG G Watch R (released October 2014, SDK 23). Both run the latest Android version and are a good representation for currently available high-end devices.
+We measured on our test devices, a Nexus 9 tablet (released November 2014, SDK 24) and a LG G Watch R (released October 2014, SDK 23). Both ran the latest Android version and are a good representation for currently available high-end devices.
 The devices were placed next to each other on a table, with quite a lot of other electronic devices nearby.
 We also altered the distance between the devices but figured out that it had no significant impact on the measurements.
 
@@ -85,10 +85,16 @@ Keeping in mind that this transfer is performed multiple hundreds or thousands t
 
 \subsubsection{Serialization}
 As mentioned before, serialization and deserialization are responsible for a large part of the processing time.
-It is curcial that this part is optimized, that's why we opted for utilizing established libraries.
+It is crucial that this part is optimized, that's why we opted for utilizing established libraries.
 Namely, we decided to use jackson\footnote{https://github.com/FasterXML/jackson} because of its performance advantage compared to other well known libraries like gson\footnote{https://github.com/google/gson}.
 
 There are benchmarks available that compared these JSON libraries, which is why we won't present new measurements here.
 The key take-away is that jackson is faster in handling larger files, while gson should be used for smaller files\footnote{http://blog.takipi.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/}.
+
+\subsubsection{Data Rate}
+asdf
+
+\subsubsection{Battery Impact}
+asdf
 
 \clearpage
