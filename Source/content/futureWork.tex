@@ -23,7 +23,7 @@ Each dimension holds a single-precision 32-bit IEEE 754 floating point.
 In our use case, we didn't need values with that high precision.
 Instead, rounded values would be sufficient for our algorithms.
 
-By switching the data type for our data arrays from floats to shorts (16-bit signed two's complement integers), we could save about 50\% of transferred bytes. However, it still has to be evaluated whether the loss of precision and the processing power required for converting the data justifies this saving.
+By switching the data type of our data arrays from floats to shorts (16-bit signed two's complement integers), we could save about 50\% of transferred bytes. However, it still has to be evaluated whether the loss of precision and the processing power required for converting the data justifies this saving.
 
 \subsection{Open Research Questions}
 

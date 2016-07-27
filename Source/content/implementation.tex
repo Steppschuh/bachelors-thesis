@@ -205,7 +205,7 @@ public DataBatch getDataBatch(int sensorType) {
 \label{sec:implementation:serializingdata}
 
 At some point, we have to convert the persisted data into byte arrays.
-We need to serialize objects in order to transfer it to another device or to write it into a file.
+We need to serialize objects in order to transfer them to another device or to write it into a file.
 
 The most straightforward solution is using JSON\footnote{JavaScript Object Notation}, which is a common data-interchange format.
 It is easy to read for humans and easy to parse for software, which is why we decided to use this format.
