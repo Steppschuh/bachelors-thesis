@@ -95,7 +95,29 @@ Because the reporting delay can impact the battery life of the device, some manu
 \subsubsection{Monitoring Lifecycle Changes}
 \label{sec:implementation:monitoringlifecyclechanges}
 Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user leaves the application.
-Hence, one should always unregister listeners as soon as possible in order to prevent battery drain:
+Hence, one should always unregister listeners as soon as possible in order to prevent battery drain.
+
+We need to have elemental understanding of how the Android |Activity|\cite{androiddocs:activity} lifecycle works, as illustrated in figure \ref{fig:activityLifecycle}. For a basic implementation, we need to override three |Activity| methods:
+
+\begin{itemize}[noitemsep]
+	\item |onCreate()| is called when the |Activity| is first created.
+	This is wehere we will create our view and setup our |SensorManager|.
+	\item |onResume()| is called when the activity is at the top of the activity stack and starts interacting with the user.
+	We will register our |SensorEventListeners| here.
+	\item |onPause()| is called when the system is about to start resuming a previous activity.
+	We will unregister our |SensorEventListeners| here.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{images/activity_lifecycle.png}
+	\caption[Caption for activity_lifecycle]{Activity lifecycle states\footnotemark}
+	\label{fig:activityLifecycle}
+\end{figure}
+\footnotetext{https://developer.android.com/reference/android/app/Activity.html}
+
+The following very basic example activity would print accelerometer data to the console once deployed.
+Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}:
 
 \begin{lstlisting}[label=basicactivity]
 public class SensorActivity extends Activity implements SensorEventListener {
@@ -137,10 +159,6 @@ public class SensorActivity extends Activity implements SensorEventListener {
 	}
 }
 \end{lstlisting}
-
-This very basic example activity would print accelerometer data to the console once deployed.
-Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}.
-We presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle\improvement{Explain} works.
 
 \subsection{Persisting Data}
 Once a sensor is reporting data, a new |SensorEvent| will be passed to the callback every few milliseconds.

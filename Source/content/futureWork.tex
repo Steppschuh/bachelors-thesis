@@ -1,7 +1,12 @@
 \section{Future Work}
 \label{sec:futurework}
 
-\subsection{Channel API}
+\subsection{Open Research Questions}
+asdf?
+
+\subsection{Extensions}
+
+\subsubsection{Channel API}
 In our implementation, we utilized the |MessageApi|\cite{androiddocs:messageapi} because it is recommended for smaller messages.
 We also used it for other project related purposes, so we sticked to it for consistency.
 However, we figured out that there might be an even more performant solution:
@@ -14,7 +19,7 @@ Data can be exchanged using byte streams, which makes the |ChannelApi| very suit
 
 Unfortunately we weren't able to evaluate whether implementing the |ChannelApi| would increase our performance jet.
 
-\subsection{Compression}
+\subsubsection{Compression}
 In order to decrease the amount of data transferred with each |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}, we can try to reduce the overhead created by meta data.
 This overhead can only be reduced to a certain amount, though.
 
@@ -24,9 +29,5 @@ In our use case, we didn't need values with that high precision.
 Instead, rounded values would be sufficient for our algorithms.
 
 By switching the data type of our data arrays from floats to shorts (16-bit signed two's complement integers), we could save about 50\% of transferred bytes. However, it still has to be evaluated whether the loss of precision and the processing power required for converting the data justifies this saving.
-
-\subsection{Open Research Questions}
-
-\subsection{Extensions}
 
 \clearpage
