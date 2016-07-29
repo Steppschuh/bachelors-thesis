@@ -30,6 +30,7 @@ App not running. Phone idle, casually checking messages.
  160      | 27       | 25       | 13       | 40       | 0
  
 ### Benchmark #2
+Requesting 3-dimensional data from the accelerometer and gravity sensor with `SENSOR_DELAY_FASTEST` every 50 ms. 
 
 #### Measured operations
 - Transfer data (watch → mobile)
@@ -40,7 +41,7 @@ App not running. Phone idle, casually checking messages.
   - Rendering in a chart using [Canvas](https://developer.android.com/reference/android/graphics/Canvas.html)
 
 ### Benchmark #2.1
-Requesting 3-dimensional data from the accelerometer and gravity sensor with `SENSOR_DELAY_FASTEST` every 50 ms. Screen constantly on at 20% brightness.
+Screen constantly on at 20% brightness.
 
 #### Results
  Total    | System   | OS       | BT       | Screen   | App 
@@ -49,4 +50,15 @@ Requesting 3-dimensional data from the accelerometer and gravity sensor with `SE
  580      | 59       | 99       | 32       | 148      | 239
  593      | 67       | 91       | 34       | 161      | 226
  630      | 71       | 103      | 32       | 151      | 219
+
+### Benchmark #2.2
+Screen turned off, not rendering data.
+
+#### Results
+ Total    | System   | OS       | BT       | Screen   | App 
+ -------: | -------: | -------: | -------: | -------: | -------:
+ 331      | 60       | 88       | 34       | 41       | 57
+ 318      | 59       | 92       | 30       | 38       | 64
+ 330      | 53       | 94       | 33       | 32       | 63
+ 325      | 57       | 92       | 33       | 40       | 59
 
