@@ -97,6 +97,14 @@ Because the reporting delay can impact the battery life of the device, some manu
 Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user leaves the application.
 Hence, one should always unregister listeners as soon as possible in order to prevent battery drain.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{images/activity_lifecycle.png}
+	\caption[Caption for activity_lifecycle]{Activity lifecycle callbacks\footnotemark}
+	\label{fig:activityLifecycle}
+\end{figure}
+\footnotetext{https://developer.android.com/training/basics/activity-lifecycle/starting.html}
+
 We need to have elemental understanding of how the Android |Activity|\cite{androiddocs:activity} lifecycle works, as illustrated in figure \ref{fig:activityLifecycle}. For a basic implementation, we need to override three |Activity| methods:
 
 \begin{itemize}[noitemsep]
@@ -108,15 +116,7 @@ We need to have elemental understanding of how the Android |Activity|\cite{andro
 	We will unregister our |SensorEventListeners| here.
 \end{itemize}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{images/activity_lifecycle.png}
-	\caption[Caption for activity_lifecycle]{Activity lifecycle states\footnotemark}
-	\label{fig:activityLifecycle}
-\end{figure}
-\footnotetext{https://developer.android.com/reference/android/app/Activity.html}
-
-The following very basic example activity would print accelerometer data to the console once deployed.
+The following example |Activity| would print accelerometer data to the console while the app is visible to the user.
 Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}:
 
 \begin{lstlisting}[label=basicactivity]
@@ -420,12 +420,5 @@ public void onMessageReceived(MessageEvent messageEvent) {
 \end{lstlisting}
 
 Obviously, message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|.
-
-\improvement{Explain ChannelApi}
-
-\subsection{Putting it all together}
-asdf
-
-\improvement{Change section title}
 
 \clearpage

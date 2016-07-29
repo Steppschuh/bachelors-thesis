@@ -34,17 +34,22 @@ Thus, heavy work loads like these should be done on a connected mobile device an
 The goal of our Bachelor project ``Passwords are Obsolete - Seamless authentication using wearables and mobile devices.'' was to authenticate a user by utilizing only data from devices that the user already owns.
 We opted for training classifiers to analyse how a user performs certain activities and to distinguish between behaviour patterns. These classifiers take raw sensor data or extracted features and perform different machine learning methods.
 
-Our unsupervised learning approach required that a wearable can exchange data with a mobile device in a performant jet battery friendly way while keeping the delay in an acceptable range.
-This requirement is the topic of this thesis, we will implement and evaluate our solution in the upcoming sections.
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{diagrams/apps.png}
+	\caption[Caption for bpmn]{Trustlevel approach}
+	\label{fig:diagrams:approach}
+\end{figure}
 
-\subsection{Structure}
-\label{sec:intro:structure}
+Our unsupervised learning approach required that a wearable can exchange data with a mobile device in a performant jet battery friendly way while keeping the delay in an acceptable range.
+This requirement is the topic of this thesis, structured as described below:
 
 We will start with \textbf{Related Work} (\ref{sec:relatedwork}), where we briefly mention similar projects and papers related to this topic.
 After that, we will let you know why we decided to develop for the Android platform in the \textbf{Devices} section (\ref{sec:devices}).
 In \textbf{Concept} (\ref{sec:concept}), we will explain how the basic app setup on mobile and wearable devices needs to look like.
 Actual code samples will be part of the \textbf{Implementation} section (\ref{sec:implementation}), where we provide detailed examples for every required functionality.
-In \textbf{Evaluation} (\ref{sec:evaluation}) will verify our solution using benchmarks and comparisons.
-Finally, we will describe possible improvements in \textbf{Future work} (\ref{sec:futurework}).
+In \textbf{Evaluation} (\ref{sec:evaluation}) we will verify our solution using benchmarks and comparisons.
+Possible improvements will be described in \textbf{Future work} (\ref{sec:futurework}).
+Finally, \textbf{Conclusion} (\ref{sec:conclusion}) will wrap up our work.
+
 
 \clearpage

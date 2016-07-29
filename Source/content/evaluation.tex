@@ -1,8 +1,6 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-\subsection{Benchmarks}
-\label{sec:evaluation:benchmarks}
 In order to measure how performant different implementations are, we created different benchmarks.
 These helped us to evaluate which parts of our solution require optimization.
 Each benchmark contains the average result of 500 consequtive measurements and has been validated multiple times.
@@ -33,7 +31,7 @@ For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we b
 
 \begin{table}[H]
 	\begin{tabular}{rrrl}
-		delay in ns       & bytes             & delay / bytes     & comment \\ \hline
+		delay in ns       & bytes             & delay / bytes     				& comment \\ \hline
 
 		1,266,250,000     & 200               & \textasciitilde6,331,250        & \textasciitilde1 update (|SENSOR_DELAY_NORMAL|) \\
 		1,271,160,000     & 482               & \textasciitilde2,637,261        & \textasciitilde2 updates (|SENSOR_DELAY_UI|) \\
@@ -52,7 +50,7 @@ We wanted to improve even further and increased the batching duration to \textbf
 
 \begin{table}[H]
 	\begin{tabular}{rrrl}
-		delay in ns       & bytes             & delay / bytes     & comment \\ \hline
+		delay in ns       & bytes             & delay / bytes     				& comment \\ \hline
 
 		1,329,120,000     & 625               & \textasciitilde2,126,592        & \textasciitilde3 updates (|SENSOR_DELAY_NORMAL|) \\
 		1,331,970,000     & 1,340             & \textasciitilde994,007          & \textasciitilde8 updates (|SENSOR_DELAY_UI|) \\
@@ -70,7 +68,7 @@ For some use cases, less frequent data might be sufficient. Instead of altering 
 
 \begin{table}[H]
 	\begin{tabular}{rrrl}
-		delay in ns       & bytes             & delay / bytes     & comment \\ \hline
+		delay in ns       & bytes             & delay / bytes     				& comment \\ \hline
 
 		1,452,400,000     & 16,690            & \textasciitilde87,022           & \textasciitilde116 updates,  1 sensor \\
 		1,489,100,000     & 22,819            & \textasciitilde65,257           & \textasciitilde246 updates,  2 sensors \\
@@ -96,5 +94,7 @@ asdf
 
 \subsubsection{Battery Impact}
 asdf
+
+\improvement{Add visualization}
 
 \clearpage
