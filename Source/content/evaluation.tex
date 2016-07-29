@@ -86,7 +86,7 @@ As mentioned before, serialization and deserialization are responsible for a lar
 It is crucial that this part is optimized, that's why we opted for utilizing established libraries.
 Namely, we decided to use jackson\footnote{https://github.com/FasterXML/jackson} because of its performance advantage compared to other well known libraries like gson\footnote{https://github.com/google/gson}.
 
-There are benchmarks available that compared these JSON libraries, which is why we won't present new measurements here.
+There are benchmarks available that compare these JSON libraries, which is why we won't present new measurements here.
 The key take-away is that jackson is faster in handling larger files, while gson should be used for smaller files\footnote{http://blog.takipi.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/}.
 
 \subsubsection{Data Rate}

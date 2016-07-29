@@ -17,7 +17,7 @@ In contrast to the |DataApi|, it doesn't synchronize |Assets|\cite{androiddocs:a
 Instead, it creates a bidirectional channel that the sending and receiving node may read or write to.
 Data can be exchanged using byte streams, which makes the |ChannelApi| very suitable for transferring streamed content like music - or even sensor data.
 
-Unfortunately we weren't able to evaluate whether implementing the |ChannelApi| would increase our performance jet.
+Unfortunately we weren't able to evaluate whether implementing the |ChannelApi| would increase our performance yet.
 
 \subsubsection{Compression}
 In order to decrease the amount of data transferred with each |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}, we can try to reduce the overhead created by meta data.
