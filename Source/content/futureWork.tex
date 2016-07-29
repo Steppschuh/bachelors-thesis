@@ -1,14 +1,33 @@
 \section{Future Work}
-\label{sec:future_work}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
+\label{sec:futurework}
 
 \subsection{Open Research Questions}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
-
-Integer vitae neque odio, a sollicitudin lorem. Aenean orci mauris, tristique luctus fermentum eu, feugiat vel massa. Fusce sem sem, egestas nec vulputate vel, pretium sit amet mi. Fusce ut nisl id risus facilisis euismod. Curabitur et elementum purus. Duis tincidunt fringilla eleifend. Morbi id lorem eu ante adipiscing feugiat. Sed congue erat in enim eleifend dignissim at in nisl. Donec tortor mauris, mollis vel pretium vitae, lacinia nec sapien. Donec erat neque, ullamcorper tincidunt iaculis sit amet, pharetra bibendum ipsum. Nunc mattis risus ac ante consequat nec pulvinar neque molestie. Etiam interdum nunc at metus lacinia non varius erat dignissim. Integer elementum, felis id facilisis vulputate, ipsum tellus venenatis dui, at blandit nibh massa in dolor. Cras a ultricies sapien. Vivamus adipiscing feugiat pharetra.
+What could other researches work on?
 
 \subsection{Extensions}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
 
-Integer vitae neque odio, a sollicitudin lorem. Aenean orci mauris, tristique luctus fermentum eu, feugiat vel massa. Fusce sem sem, egestas nec vulputate vel, pretium sit amet mi. Fusce ut nisl id risus facilisis euismod. Curabitur et elementum purus. Duis tincidunt fringilla eleifend. Morbi id lorem eu ante adipiscing feugiat. Sed congue erat in enim eleifend dignissim at in nisl. Donec tortor mauris, mollis vel pretium vitae, lacinia nec sapien. Donec erat neque, ullamcorper tincidunt iaculis sit amet, pharetra bibendum ipsum. Nunc mattis risus ac ante consequat nec pulvinar neque molestie. Etiam interdum nunc at metus lacinia non varius erat dignissim. Integer elementum, felis id facilisis vulputate, ipsum tellus venenatis dui, at blandit nibh massa in dolor. Cras a ultricies sapien. Vivamus adipiscing feugiat pharetra.
+\subsubsection{Channel API}
+In our implementation, we utilized the |MessageApi|\cite{androiddocs:messageapi} because it is recommended for smaller messages.
+We also used it for other project related purposes, so we sticked to it for consistency.
+However, we figured out that there might be an even more performant solution:
+
+The |ChannelApi|\cite{androiddocs:channelapi} is also part of the |WearableApi|\cite{androiddocs:wearable}, accessible through the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
+It should be used to transfer large files, just like the already mentioned |DataApi|\cite{androiddocs:dataapi}.
+In contrast to the |DataApi|, it doesn't synchronize |Assets|\cite{androiddocs:asset} accross the devices.
+Instead, it creates a bidirectional channel that the sending and receiving node may read or write to.
+Data can be exchanged using byte streams, which makes the |ChannelApi| very suitable for transferring streamed content like music - or even sensor data.
+
+Unfortunately we weren't able to evaluate whether implementing the |ChannelApi| would increase our performance yet.
+
+\subsubsection{Compression}
+In order to decrease the amount of data transferred with each |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}, we can try to reduce the overhead created by meta data.
+This overhead can only be reduced to a certain amount, though.
+
+Each sensor data update is an array of values, and can have up to 9 dimensions (depending on the sensor).
+Each dimension holds a single-precision 32-bit IEEE 754 floating point.
+In our use case, we didn't need values with that high precision.
+Instead, rounded values would be sufficient for our algorithms.
+
+By switching the data type of our data arrays from floats to shorts (16-bit signed two's complement integers), we could save about 50\% of transferred bytes. However, it still has to be evaluated whether the loss of precision and the processing power required for converting the data justifies this saving.
+
 \clearpage

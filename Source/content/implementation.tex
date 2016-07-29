@@ -1,8 +1,8 @@
 \section{Implementation}
 \label{sec:implementation}
 
-To showcase and benchmark my work, I created an Android app that visualizes sensor data from the device it runs on and also from connected Android Wear devices.
-The app is called Sensor Data Logger (\ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
+To showcase and benchmark our work, we created an Android app that visualizes sensor data from the device it runs on and also from connected Android Wear devices.
+The app is called Sensor Data Logger (see figure \ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
 
 \begin{figure}[H]
 	\href{https://github.com/Steppschuh/Sensor-Data-Logger}{
@@ -12,7 +12,7 @@ The app is called Sensor Data Logger (\ref{fig:sensorDataLoggerApp}) and can be 
 	\label{fig:sensorDataLoggerApp}
 \end{figure}
 
-Code samples in the following sections are snippets from this project and can be seen in context in the GitHub repository\footnote{\href{https://github.com/Steppschuh/Sensor-Data-Logger}{https://github.com/Steppschuh/Sensor-Data-Logger}}.
+Code samples in the following sections are snippets from this project and can be seen in context in our GitHub repository\footnote{\href{https://github.com/Steppschuh/Sensor-Data-Logger}{https://github.com/Steppschuh/Sensor-Data-Logger}}.
 
 \clearpage
 
@@ -29,7 +29,7 @@ The supported sensors can be divided into three categories:
 \end{itemize}
 
 Not all sensors are hardware components, the so called ``virtual-'' or ``synthetic sensors'' derive their data from one or more hardware-based sensors.
-Examples for these virtual sensors are the linear acceleration sensor, which computes its data based on the accelerometer and the force of gravity.
+Examples for these virtual sensors are the linear acceleration sensor, which computes its data based on the accelerometer and the gravity sensor.
 
 All sensors can be accessed through the Android sensor framework, which provides classes and interfaces that can be used to figure out which sensors are available on the current device, which capabilities they have and what data they produce.
 
@@ -57,7 +57,7 @@ if (accelerometer != null) {
 If a sensor is available, public methods from the |Sensor|\cite{androiddocs:sensor} class can be used to get detailed information about it.
 The name, vendor, version, data range and reporting delay are useful properties, especially because one device can have multiple sensors of the same type.
 
-\subsubsection{Monitoring data changes}
+\subsubsection{Monitoring Data Changes}
 \label{sec:implementation:monitoringdatachanges}
 In order to get access to the actual data, a |SensorEventListener|\cite{androiddocs:sensoreventlistener} needs to be registered at the |SensorManager| instance. The |SensorEventListener| is an interface which exposes two callback methods:
 
@@ -92,12 +92,32 @@ When registering a |SensorEventListener|, a delay in microseconds is also passed
 It's worth to notice that this value is more like a suggestion, as other applications and the system can alter it.
 Because the reporting delay can impact the battery life of the device, some manufacturers will lower the reporting interval when the device is idle or the display is turned off.
 
-\clearpage
-
-\subsubsection{Monitoring lifecycle changes}
+\subsubsection{Monitoring Lifecycle Changes}
 \label{sec:implementation:monitoringlifecyclechanges}
 Once a |SensorEventListener| is registered, the system will keep the requested sensor active and continue to report data, even if the user leaves the application.
-Hence, one should always unregister listeners as soon as possible in order to prevent battery drain:
+Hence, one should always unregister listeners as soon as possible in order to prevent battery drain.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{images/activity_lifecycle.png}
+	\caption[Caption for activity_lifecycle]{Activity lifecycle callbacks\footnotemark}
+	\label{fig:activityLifecycle}
+\end{figure}
+\footnotetext{https://developer.android.com/training/basics/activity-lifecycle/starting.html}
+
+We need to have elemental understanding of how the Android |Activity|\cite{androiddocs:activity} lifecycle works, as illustrated in figure \ref{fig:activityLifecycle}. For a basic implementation, we need to override three |Activity| methods:
+
+\begin{itemize}[noitemsep]
+	\item |onCreate()| is called when the |Activity| is first created.
+	This is wehere we will create our view and setup our |SensorManager|.
+	\item |onResume()| is called when the activity is at the top of the activity stack and starts interacting with the user.
+	We will register our |SensorEventListeners| here.
+	\item |onPause()| is called when the system is about to start resuming a previous activity.
+	We will unregister our |SensorEventListeners| here.
+\end{itemize}
+
+The following example |Activity| would print accelerometer data to the console while the app is visible to the user.
+Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}:
 
 \begin{lstlisting}[label=basicactivity]
 public class SensorActivity extends Activity implements SensorEventListener {
@@ -140,10 +160,6 @@ public class SensorActivity extends Activity implements SensorEventListener {
 }
 \end{lstlisting}
 
-This very basic example activity would print accelerometer data to the console once deployed.
-Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}.
-I presume a basic understanding of how the Android activity\cite{androiddocs:activity} lifecycle works.
-
 \subsection{Persisting Data}
 Once a sensor is reporting data, a new |SensorEvent| will be passed to the callback every few milliseconds.
 The |values| float array will contain new data, however the system won't allocate a new object for every update in order to improve performance.
@@ -164,8 +180,8 @@ public void onSensorChanged(SensorEvent event) {
 }
 \end{lstlisting}
 
-For my project, I needed to look back at sensor events from the past few seconds in order to detect patterns and to extract features.
-I created some helper classes\cite{sensordatalogger:datapackage} that allowed me to wrap sensor event data in POJOs\footnote{Plain old Java objects}, this way they could be persisted in a batch-like structure.
+For our project, we needed to look back at sensor events from the past few seconds in order to detect patterns and to extract features.
+We created some helper classes\cite{sensordatalogger:datapackage} that allowed us to wrap sensor event data in POJOs\footnote{Plain Old Java Objects}, this way they could be persisted in a batch-like structure.
 
 There is a |Data|\cite{sensordatalogger:data} class which can wrap the values of a |SensorEvent|, its source and a timestamp.
 This is necessary because the |SensorEvent| holds references to objects that aren't required multiple times and because there's no public constructor available.
@@ -173,6 +189,7 @@ This is necessary because the |SensorEvent| holds references to objects that are
 The |DataBatch|\cite{sensordatalogger:databatch} class holds and manages a list of |Data| objects.
 It has a customizable capacity, one can add or remove |Data| and it will automatically remove old |Data| if the capacity has been reached.
 It also provides some convenience methods, for example to get |Data| from within a given time range.
+The following code would fill up a |DataBatch| with event data for each requested sensor type:
 
 \begin{lstlisting}[label=datahelperclasses]
 private Map<Integer, DataBatch> sensorDataBatches = new HashMap<>();
@@ -202,23 +219,85 @@ public DataBatch getDataBatch(int sensorType) {
 }
 \end{lstlisting}
 
-This code would fill up a |DataBatch| with event data for each requested sensor type.
-The batches are serializable and come in handy when writing data into a file or transferring it to another device.
+\subsection{Serializing Data}
+\label{sec:implementation:serializingdata}
+
+At some point, we have to convert the persisted data into byte arrays.
+We need to serialize objects in order to transfer them to another device or to write it into a file.
+
+The most straightforward solution is using JSON\footnote{JavaScript Object Notation}, which is a common data-interchange format.
+It is easy to read for humans and easy to parse for software, which is why we decided to use this format.
+Fortunately, POJOs can be directly mapped to JSON name-value pairs.
+Existing libraries like gson\footnote{https://github.com/google/gson} or jackson\footnote{https://github.com/FasterXML/jackson} are very well known and provide interfaces that make JSON handling very uncomplicated.
+
+The |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} class for example holds a list of |DataBatches| and is responsible for exchaning sensor data with the connected mobile device.
+For convenience, all classes that we transfer implement methods that can be used for JSON serialization and deserialization.
+
+\begin{lstlisting}[label=serialization]
+@JsonIgnore
+public String toJson() {
+	String jsonData = null;
+	try {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		jsonData = mapper.writeValueAsString(this);
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	return jsonData;
+}
+
+public static DataRequestResponse fromJson(String json) {
+	DataRequestResponse dataRequestResponse = null;
+	try {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		dataRequestResponse = mapper.readValue(json, DataRequestResponse.class);
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	return dataRequestResponse;
+}
+\end{lstlisting}
+
+This code block is part of the |DataRequestResponse| class.
+The |toJson()| method writes the current object state into a JSON string, while |fromJson(String json)| creates a new |DataRequestResponse| object from a given JSON string.
+The JSON string can be converted to a byte array, which can be transferred as described in section \ref{sec:implementation:transferringdata}.
+It is crucial that the same character encoding is used, we stick with UTF-8.
 
 \subsection{Transferring Data}
+\label{sec:implementation:transferringdata}
 Actually using the sensor event data requires transferring it to a device with sufficient processing power.
 
 \subsubsection{General Approach}
-In a world where the IoT\footnote{Internet of Things} is a big topic, data is usually uploaded to the cloud and processed on powerfull servers.
+In a world where the IoT\footnote{Internet of Things} is a big topic, data is usually uploaded to the cloud and processed on powerful servers.
 Although one could do that from a mobile device, this approach would produce a huge amount of traffic and ultimately lead to privacy concerns.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/wear_cloud_node.png}
+	\caption[Caption for wear_cloud_node]{Sample network with mobile and wearable nodes\footnotemark}
+	\label{fig:nodeNetwork}
+\end{figure}
+\footnotetext{https://developer.android.com/training/wearables/data-layer/}
 
 The setup that this work is about could be seen as a peer to peer network between a mobile device and multiple wearables.
 Because the devices are connected with each other, there's no need to detour data through the internet.
 By default, wearables are connected via Bluetooth with a mobile device.
 On the Android platform, this connection can be accessed through the |WearableApi|\cite{androiddocs:wearable}.
 
+\clearpage
+
 \subsubsection{The Wearable Data Layer}
-The Data Layer API is part of of the Google Play Services (version 5+) and can be reached using an instance of the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
+
+The Data Layer API is part of of the Google Play Services.
+It contains the only APIs that should be used to set up a communication channel between a mobile device and wearable devices. 
+Custom, low-level socket implementations are not recommended.
+
+As shown in figure \ref{fig:nodeNetwork}, the Data Layer API can handle multiple nodes at once.
+We are particularly interested in the Bluetooth channel, but we don't have to care about the connection because this is handled by the Play Services for us.
+The API can be reached using an instance of the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
 Because some Play Services may not be available on every device, the |GoogleApiClient| needs to be setup first:
 
 \begin{lstlisting}[label=googleapiclient]
@@ -243,34 +322,103 @@ GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
 		.build();
 \end{lstlisting}
 
-asdf
+This code block would initialize a |GoogleApiClient| instance.
+However, |addApi(Wearable.API)| would cause a call to |onConnectionFailed| if the device it runs on doesn't have the Android Wear app\footnote{https://play.google.com/store/apps/details?id=com.google.android.wearable.app} installed.
+This app is required because it handles the connection and synchronization of wearables.
+For more gracefull error handling, |addApiIfAvailable(Wearable.API)| might be the more appropriate solution.
 
+\subsubsection{The Message API}
+
+There are multiple ways of exchanging data between nodes using the Data Layer API.
+While the |DataApi|\cite{androiddocs:dataapi} can be used to synchronize larger binary blobs (|Assets|\cite{androiddocs:asset}) accross the wearable network, the |MessageApi|\cite{androiddocs:messageapi} is more suitable for exchanging smaller amounts of data.
+A message consists of the following items:
 \begin{itemize}[noitemsep]
-	\item What to transfer
-		\begin{itemize}
-			\item suitable data types
-			\item serialization
-		\end{itemize}
-	\item How to transfer
-		\begin{itemize}
-			\item Available APIs and Protocols
-			\item Pros and cons of different methods
-		\end{itemize}
+	\item \textbf{Path}:
+	A string that uniquely identifies the message action. 
+	\item \textbf{Payload}:
+	An optional byte array.
 \end{itemize}
-\lipsum[1]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
-\lipsum[1]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
-\lipsum[2]
-\lipsum[3]
-\lipsum[4]
-\lipsum[5]
+Payloads are not required by default because messages are a one-way communication mechanism, often used to only trigger RPCs\footnote{Remote procedure calls}. We use this to pass a serialized |DataRequest|\cite{sensordatalogger:datarequest} or |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}.
 
+\subsubsection{Sending Messages}
+\label{sec:implementation:transferringdata:send}
+
+In order to send a message to a connected wearable, the |Node|\cite{androiddocs:node} representation of that device is required.
+We can use the |NodeApi|\cite{androiddocs:nodeapi} to query connected nodes:
+
+\begin{lstlisting}[label=nodes]
+// a list that holds available nodes
+private List<Node> nearbyNodes;
+
+private void updateNearbyNodes() {
+	Wearable.NodeApi.getConnectedNodes(googleApiClient)
+			.setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+				@Override
+				public void onResult(NodeApi.GetConnectedNodesResult nodes) {
+					nearbyNodes = new ArrayList<Node>();
+
+					// add all nearby nodes to the list
+					for (Node node: nodes.getNodes()) {
+						if (node.isNearby()) {
+							nearbyNodes.add(node);
+						}
+					}
+				}
+			});
+}
+\end{lstlisting}
+
+The |nearbyNodes| list now contains all currently connected wearables.
+We can get a display name and an id for each node, which we need to select our message target.
+For simplicity, the following code block sends a message to all nearby nodes:
+
+\begin{lstlisting}[label=sendmessage]
+private void startRequestingSensorData() {
+	// send a request message to all nodes
+	sendMessageToNearbyNodes("/start_requesting_sensor_data", null);
+}
+
+private void sendMessageToNearbyNodes(String path, byte[] payload) {
+	for (Node node: nearbyNodes) {
+		sendMessageToNode(node.getId(), path, payload);
+	}
+}
+
+private void sendMessageToNode(String nodeId, String path, byte[] payload) {
+	Wearable.MessageApi.sendMessage(googleApiClient, nodeId, path, payload)
+			.setResultCallback(new ResultCallback() {
+				@Override
+				public void onResult(SendMessageResult sendMessageResult) {
+					if (!sendMessageResult.getStatus().isSuccess()) {
+						// perform exception handling
+					}
+				}
+			});
+}
+\end{lstlisting}
+
+Note that we can pass |null| as a payload if no data is required.
+Instead of null, a serialized |DataRequest| object could be passed.
+The receiving nodes could deserialize it to find out which sensors are requested or at which interval they should report updates.
+
+\subsubsection{Receiving Messages}
+\label{sec:implementation:transferringdata:receive}
+
+Apps running on the wearables need to implement the |MessageListener|\cite{androiddocs:messagelistener} interface in order to get notified about incoming messages. These listeners have to be registered using the |MessageApi.addListener()| function.
+
+\begin{lstlisting}[label=receivemessage]
+@Override
+public void onMessageReceived(MessageEvent messageEvent) {
+    if (messageEvent.getPath().equals("/start_requesting_sensor_data")) {
+        // get the message payload
+        byte[] payload = messageEvent.getData();
+
+        // process the request
+        startTransferringSensorData();
+    }
+}
+\end{lstlisting}
+
+Obviously, message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|.
 
 \clearpage
