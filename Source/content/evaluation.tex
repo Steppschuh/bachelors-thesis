@@ -89,9 +89,6 @@ Namely, we decided to use jackson\footnote{https://github.com/FasterXML/jackson}
 There are benchmarks available that compare these JSON libraries, which is why we won't present new measurements here.
 The key take-away is that jackson is faster in handling larger files, while gson should be used for smaller files\footnote{http://blog.takipi.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/}.
 
-\subsection{Data Rate}
-asdf
-
 \subsection{Battery Impact}
 Of course the heavy usage of the Bluetooth sensor and processing power brings along the cost of reduced battery life.
 Because battery power is very limited on mobile devices, we also benchmarked the power consumption of our app and the related system processes.
@@ -121,7 +118,7 @@ Mobile and wearable device are connected and only casually used to reply to mess
         173      & 34       & 19       & 13       & 39       & 0    \\
         160      & 27       & 25       & 13       & 40       & 0    \\
     \end{tabular}
-    \caption{Battery impact, idle}
+    \caption{Battery impact, idle (in mAh)}
     \label{table:benchmark:battery:idle}
 \end{table}
 
@@ -149,7 +146,7 @@ To benchmark how the app influences the power consumption, we requested 3-dimens
         593      & 67       & 91       & 34       & 161      & 226  \\
         630      & 71       & 103      & 32       & 151      & 219  \\
     \end{tabular}
-    \caption{Battery impact, with processing and rendering}
+    \caption{Battery impact, with processing and rendering (in mAh)}
     \label{table:benchmark:battery:screen}
 \end{table}
 
@@ -172,7 +169,7 @@ For the following measurements we excluded the processing and rendering steps an
         330      & 53       & 94       & 33       & 32       & 63   \\
         325      & 57       & 92       & 33       & 40       & 59   \\
     \end{tabular}
-    \caption{Battery impact, without processing and rendering}
+    \caption{Battery impact, without processing and rendering (in mAh)}
     \label{table:benchmark:battery:noscreen}
 \end{table}
 
