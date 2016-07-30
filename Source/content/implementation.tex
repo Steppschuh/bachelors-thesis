@@ -23,7 +23,7 @@ Android provides the |SensorManager|\cite{androiddocs:sensormanager} system serv
 The supported sensors can be divided into three categories:
 
 \begin{itemize}[noitemsep]
-	\item \textbf{Environmantal sensors} (thermometers, barometers and photometers)
+	\item \textbf{Environmental sensors} (thermometers, barometers and photometers)
 	\item \textbf{Motion sensors} (accelerometers, gyroscopes and gravity sensors)
 	\item \textbf{Position sensors} (magnetometers and orientation sensors)
 \end{itemize}
@@ -85,7 +85,7 @@ sensorManager.registerListener(listener, accelerometer, delay);
 The |onSensorChanged| method will be called every time the sensor updates its values. The passed |SensorEvent|\cite{androiddocs:sensorevent} holds the sensor, a timestamp, the accuracy and an array of floats containing the actual values.
 
 If the sensor accuracy changes, which often happens when using location sensors, the |onAccuracyChanged| method will be called.
-It can be usefull to care about these accuracies, the location optained from the Cell-ID or Wi-Fi might be more accurate than the latest GPS coordinates for example.
+It can be useful to care about these accuracies, the location obtained from the Cell-ID or Wi-Fi might be more accurate than the latest GPS coordinates for example.
 In other cases sensors might need a few seconds to calibrate, like the magnetometer.
 
 When registering a |SensorEventListener|, a delay in microseconds is also passed to the |SensorManager|.
@@ -230,7 +230,7 @@ It is easy to read for humans and easy to parse for software, which is why we de
 Fortunately, POJOs can be directly mapped to JSON name-value pairs.
 Existing libraries like gson\footnote{https://github.com/google/gson} or jackson\footnote{https://github.com/FasterXML/jackson} are very well known and provide interfaces that make JSON handling very uncomplicated.
 
-The |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} class for example holds a list of |DataBatches| and is responsible for exchaning sensor data with the connected mobile device.
+The |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} class for example holds a list of |DataBatches| and is responsible for exchanging sensor data with the connected mobile device.
 For convenience, all classes that we transfer implement methods that can be used for JSON serialization and deserialization.
 
 \begin{lstlisting}[label=serialization]
@@ -325,12 +325,12 @@ GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
 This code block would initialize a |GoogleApiClient| instance.
 However, |addApi(Wearable.API)| would cause a call to |onConnectionFailed| if the device it runs on doesn't have the Android Wear app\footnote{https://play.google.com/store/apps/details?id=com.google.android.wearable.app} installed.
 This app is required because it handles the connection and synchronization of wearables.
-For more gracefull error handling, |addApiIfAvailable(Wearable.API)| might be the more appropriate solution.
+For more graceful error handling, |addApiIfAvailable(Wearable.API)| might be the more appropriate solution.
 
 \subsubsection{The Message API}
 
 There are multiple ways of exchanging data between nodes using the Data Layer API.
-While the |DataApi|\cite{androiddocs:dataapi} can be used to synchronize larger binary blobs (|Assets|\cite{androiddocs:asset}) accross the wearable network, the |MessageApi|\cite{androiddocs:messageapi} is more suitable for exchanging smaller amounts of data.
+While the |DataApi|\cite{androiddocs:dataapi} can be used to synchronize larger binary blobs (|Assets|\cite{androiddocs:asset}) across the wearable network, the |MessageApi|\cite{androiddocs:messageapi} is more suitable for exchanging smaller amounts of data.
 A message consists of the following items:
 \begin{itemize}[noitemsep]
 	\item \textbf{Path}:

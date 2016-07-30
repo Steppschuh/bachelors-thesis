@@ -3,7 +3,7 @@
 
 In order to measure how performant different implementations are, we created different benchmarks.
 These helped us to evaluate which parts of our solution require optimization.
-Each benchmark contains the average result of 500 consequtive measurements and has been validated multiple times.
+Each benchmark contains the average result of 500 consecutive measurements and has been validated multiple times.
 
 \subsection{Setup}
 For the benchmarks, we created a |TimeTracker|\cite{sensordatalogger:timetracker} that is capable of measuring the delay in nanoseconds between events. It also provides convenience functions for merging repetitive measurements to avoid round-off errors.
@@ -25,7 +25,7 @@ The most important performance indicator is the time it takes between these even
 In order to reduce the serialization overhead, we collect sensor data in |DataBatches|\cite{sensordatalogger:databatch} before transferring it to a mobile device.
 This approach drastically improves the \textit{delay per sent byte} ratio, because we have to serialize and deserialize less messages and less meta data.
 However, it also delays the data depending on the batch capacity.
-Just like buffering a stream, this is a trade-off between beeing less efficient or beeing less real-time.
+Just like buffering a stream, this is a trade-off between being less efficient or being less real-time.
 
 For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we batched sensor data from the accelerometer for \textbf{50 milliseconds} before transferring it while altering the sensor delay:
 
@@ -128,7 +128,7 @@ Mobile and wearable device are connected and only casually used to reply to mess
 We measured an average total battery drain of 167 mAh per hour.
 Assuming that the average battery capacity of currently available smartphones is \textasciitilde2500 mAh, this is equivalent to 6.68\% of battery life.
 
-The Bluetooth consumption is noticable because the wearable is connected to the phone and synchronizing notifications, although it is not streaming sensor data.
+The Bluetooth consumption is noticeable because the wearable is connected to the phone and synchronizing notifications, although it is not streaming sensor data.
 
 To benchmark how the app influences the power consumption, we requested 3-dimensional data from the accelerometer and gravity sensor with |SENSOR_DELAY_FASTEST| every 50 ms. The measured operations include:
 
