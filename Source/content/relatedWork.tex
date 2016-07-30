@@ -6,9 +6,18 @@
 	\item What's different
 \end{itemize}
 
-\subsection{Papers}
-\begin{itemize}[noitemsep]
-	\item Combine abstracts
-\end{itemize}
+Wang et al. evaluated whether it is possible to figure out what a user is typing on a keyboard, just by looking at the sensor data that smartwatches produce.
+In their papger ``MoLe: Motion Leaks through Smartwatch Sensors''\cite{paper:motionleaks}, they described how they analysed peoples typing behaviour in order to identify possible information leaks when users type while wearing a smartwatch.
+They also developed a system for the Samsung Gear Live smartwatch (one of the first devices running Android Wear) that resembles motion data to commonly used english words.
+Although MoLe turned out to be able to detect typed words with an high accuracy, they used the wearable only to record the sensor data.
+Files containing the data were exported from the watch and processed on more powerful devices and not on mobile devices, which does not meat our project's requirements.
+
+In ``Real-Time Sensing on Android''\cite{paper:realtimesensing}, Yin Yan et al. examined Android’s sensor architecture and whether it is suitable for use in a real-time context.
+They took an in-depth look at the very low-level implementations of the Android |SensorManager|\cite{androiddocs:sensormanager}, including the kernel, HAL\footnote{Hardware Abstraction Layer}, and the |SensorService| (which polls raw sensor data through the HAL).
+Their research showed that Android's sensor architecture does not provide predictable sensing.
+It does not have any priority support in sensor data delivery, because all sensor data follows a single path from the kernel to apps.
+Also, the amount of time it takes to deliver sensor data is unpredictable because Android relies heavily on polling and buffering.
+For our project however, we worked around these limitations by implementing algorithms that abstracted from the data frequency and delay.
+
 
 \clearpage
