@@ -1,7 +1,7 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-In order to measure how performant different implementations are, we created different benchmarks.
+In order to measure how performant our implementations are, we created different benchmarks.
 These helped us to evaluate which parts of our solution require optimization.
 Each benchmark contains the average result of 500 consecutive measurements and has been validated multiple times.
 
@@ -44,7 +44,7 @@ For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we b
 
 When using |SENSOR_DELAY_NORMAL|, the sensor reports only about one update during the batching duration.
 This basically results in no improvement at all because we still have to deal with the serialization overhead for each update.
-By collecting more updates in the same time frame (in this case by switching to |SENSOR_DELAY_FASTEST|), we were able to boost the efficency by 94.3\% while only raising the delay by 3.2\%.
+By collecting more updates in the same time frame (in this case by switching to |SENSOR_DELAY_FASTEST|), we were able to reduce the delay per sent byte by 94.3\% while only raising the delay by 3.2\%.
 
 We wanted to improve even further and increased the batching duration to \textbf{500 milliseconds}, as measured in table \ref{table:benchmark:transmissiondelay:500ms}:
 
@@ -173,9 +173,8 @@ For the following measurements we excluded the processing and rendering steps an
     \label{table:benchmark:battery:noscreen}
 \end{table}
 
-Although all processes still require more power compared to the idle state, the average total battery drain has only increased by a factor of 1.9 to 326 mAh per hour.
+Although all processes still require more power compared to the idle state, the average total battery drain has only increased by a factor of 1.9 to 326 mAh (or 12.69\% of battery life) per hour.
 The |Data| processing and rendering steps were responsible for 73\% of the apps battery drain.
-
-\improvement{Add visualization}
+Using this implementation, continuous streaming of sensor data would be possible for well over 7 hours.
 
 \clearpage

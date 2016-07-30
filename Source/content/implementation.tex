@@ -2,7 +2,7 @@
 \label{sec:implementation}
 
 To showcase and benchmark our work, we created an Android app that visualizes sensor data from the device it runs on and also from connected Android Wear devices.
-The app is called Sensor Data Logger (see figure \ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
+The app is called Sensor Data Logger (shown in figure \ref{fig:sensorDataLoggerApp}) and can be downloaded for free from the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
 
 \begin{figure}[H]
 	\href{https://github.com/Steppschuh/Sensor-Data-Logger}{
@@ -99,7 +99,7 @@ Hence, one should always unregister listeners as soon as possible in order to pr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{images/activity_lifecycle.png}
+	\includegraphics[width=0.85\textwidth]{images/activity_lifecycle.png}
 	\caption[Caption for activity_lifecycle]{Activity lifecycle callbacks\footnotemark}
 	\label{fig:activityLifecycle}
 \end{figure}
@@ -162,7 +162,7 @@ public class SensorActivity extends Activity implements SensorEventListener {
 
 \subsection{Persisting Data}
 Once a sensor is reporting data, a new |SensorEvent| will be passed to the callback every few milliseconds.
-The |values| float array will contain new data, however the system won't allocate a new object for every update in order to improve performance.
+The |values| float array will contain new data, however the system will not allocate a new object for every update in order to improve performance.
 Handling these values without knowing about its object identity might cause confusion, as they will be overwritten with every update.
 To prevent this, a new float array can be used to hold the event data:
 
