@@ -22,9 +22,9 @@ Namely, we evaluated the Apple Watch, the UP and Microsoft Band as well as Andro
 	\end{center}
 \end{wrapfigure}
 While the currently available Apple Watches all provide sufficient hardware and enough sensors, the software does not allow 3rd party developers to take full advantage of this.
-With WatchOS 2, Apple restricted apps running on the watch to only get access to sensor data while it's visible to the user.
+With watchOS 2, Apple restricted apps running on the watch to only get access to sensor data while it's visible to the user.
 For our project however, we needed a way to access sensor data from a background service, which simply isn't possible with the existing APIs.
-Apple announced that in WatchOS 3\footnote{http://apple.com/watchos-preview/} (which isn't available yet), this restriction will be eliminated. 
+Apple announced that in watchOS 3\footnote{http://apple.com/watchos-preview/} (which isn't available yet), this restriction will be eliminated. 
 
 \subsection{UP by Jawbone}
 \begin{wrapfigure}[11]{r}{0.25\textwidth}
@@ -36,7 +36,7 @@ Jawbone's fitness trackers follow an approach that differs from the other wearab
 Raw data from the few built in sensors is stored on the device.
 It occasionally synchronizes this data with the ``UP'' app\footnote{https://jawbone.com/up} for iOS and Android via Bluetooth, which then uploads the data to Jawbone's servers.
 The servers process the raw data and extract useful information, which is then accessible through an API.
-This results in an delay of about 2 hours, which means that we can not use it in any real-time related context.
+This results in a delay of about 2 hours, which means that we can not use it in any real-time related context.
 Even if that delay would be acceptable, the API does not provide access to the raw sensor data, which would be required for our project.
 
 \subsection{Microsoft Band}

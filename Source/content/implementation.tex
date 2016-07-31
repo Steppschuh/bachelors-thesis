@@ -113,7 +113,7 @@ For a basic implementation, we need to override three |Activity| methods:
 
 \begin{itemize}[noitemsep]
 	\item |onCreate()| is called when the |Activity| is first created.
-	This is wehere we will create our view and setup our |SensorManager|.
+	This is where we will create our view and setup our |SensorManager|.
 	\item |onResume()| is called when the activity is at the top of the activity stack and starts interacting with the user.
 	We will register our |SensorEventListeners| here.
 	\item |onPause()| is called when the system is about to start resuming a previous activity.
@@ -121,7 +121,7 @@ For a basic implementation, we need to override three |Activity| methods:
 \end{itemize}
 
 The example |Activity| found in Appendix listing \ref{basicactivity} would print accelerometer data to the console while the app is visible to the user.
-Keep in mind that it lacks exception handling, as mentioned in \ref{sec:implementation:checkingavailability}:
+Keep in mind that it lacks exception handling, as recommended in \ref{sec:implementation:checkingavailability}.
 
 \subsection{Persisting Data}
 Once a sensor is reporting data, a new |SensorEvent| will be passed to the callback every few milliseconds.
@@ -148,7 +148,7 @@ public void onSensorChanged(SensorEvent event) {
 For our project, we needed to look back at sensor events from the past few seconds in order to detect patterns and to extract features.
 We created some helper classes\cite{sensordatalogger:datapackage} that allowed us to wrap sensor event data in POJOs\footnote{Plain Old Java Objects}, this way they could be persisted in a batch-like structure.
 
-There is a |Data|\cite{sensordatalogger:data} class which can wrap the values of a |SensorEvent|, its source and a timestamp.
+We created a |Data|\cite{sensordatalogger:data} class which can wrap the values of a |SensorEvent|, its source and a timestamp.
 This is necessary because the |SensorEvent| holds references to objects that aren't required multiple times and because there's no public constructor available. The |DataBatch|\cite{sensordatalogger:databatch} class holds and manages a list of |Data| objects.
 It has a customizable capacity, one can add or remove |Data| and it will automatically remove old |Data| if the capacity has been reached.
 It also provides some convenience methods, for example to get |Data| from within a given time range.
@@ -249,10 +249,11 @@ Although one could do that from a mobile device, this approach would produce a h
 \end{figure}
 \footnotetext{https://developer.android.com/training/wearables/data-layer/}
 
-\clearpage
-
 The setup that this work is about could be seen as a peer to peer network between a mobile device and multiple wearables.
 Because the devices are connected with each other, there's no need to detour data through the internet.
+
+\clearpage
+
 By default, wearables are connected via Bluetooth with a mobile device.
 On the Android platform, this connection can be accessed through the |WearableApi|\cite{androiddocs:wearable}.
 
@@ -288,6 +289,8 @@ GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
 		.addApi(Wearable.API)
 		.build();
 \end{lstlisting}
+
+\clearpage
 
 This code block would initialize a |GoogleApiClient| instance.
 However, |addApi(Wearable.API)| would cause a call to |onConnectionFailed| if the device it runs on doesn't have the Android Wear app\footnote{https://play.google.com/store/apps/details?id=com.google.android.wearable.app} installed.
@@ -392,6 +395,6 @@ public void onMessageReceived(MessageEvent messageEvent) {
 }
 \end{lstlisting}
 
-Obviously, message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|.
+Message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|.
 
 \clearpage
