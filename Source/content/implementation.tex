@@ -115,7 +115,7 @@ For a basic implementation, we need to override three |Activity| methods:
 	\item |onCreate()| is called when the |Activity| is first created.
 	This is where we will create our view and setup our |SensorManager|.
 	\item |onResume()| is called when the activity is at the top of the activity stack and starts interacting with the user.
-	We will register our |SensorEventListeners| here.
+	We will register our \\|SensorEventListeners| here.
 	\item |onPause()| is called when the system is about to start resuming a previous activity.
 	We will unregister our |SensorEventListeners| here.
 \end{itemize}
@@ -196,8 +196,6 @@ Existing libraries like gson\footnote{https://github.com/google/gson} or jackson
 The |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} class for example holds a list of |DataBatches| and is responsible for exchanging sensor data with the connected mobile device.
 For convenience, all classes that we transfer implement methods that can be used for JSON serialization and deserialization.
 
-\clearpage
-
 \begin{lstlisting}[label=serialization]
 @JsonIgnore
 public String toJson() {
@@ -212,7 +210,11 @@ public String toJson() {
 	}
 	return jsonData;
 }
+\end{lstlisting}
 
+\clearpage
+
+\begin{lstlisting}[label=deserialization]
 public static DataRequestResponse fromJson(String json) {
 	DataRequestResponse dataRequestResponse = null;
 	try {
@@ -293,7 +295,7 @@ GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
 \clearpage
 
 This code block would initialize a |GoogleApiClient| instance.
-However, |addApi(Wearable.API)| would cause a call to |onConnectionFailed| if the device it runs on doesn't have the Android Wear app\footnote{https://play.google.com/store/apps/details?id=com.google.android.wearable.app} installed.
+However, \\|addApi(Wearable.API)| would cause a call to |onConnectionFailed| if the device it runs on doesn't have the Android Wear app\footnote{https://play.google.com/store/apps/details?id=com.google.android.wearable.app} installed.
 This app is required because it handles the connection and synchronization of wearables.
 For more graceful error handling, |addApiIfAvailable(Wearable.API)| might be the more appropriate solution.
 
@@ -394,6 +396,9 @@ public void onMessageReceived(MessageEvent messageEvent) {
     }
 }
 \end{lstlisting}
+
+If no |Activity| context is available, this can also be achieved using the \\|WearableListenerService|\cite{androiddocs:wearablelistenerservice}.
+It is capable of receiving events from other nodes, including data changes, messages or connectivity events.
 
 Message paths should be static and final constants defined in a shared module that the mobile and wearable app package have access to. In our implementation, the payload would be a serialized |DataRequest|.
 

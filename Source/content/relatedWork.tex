@@ -11,7 +11,7 @@ Files containing the data were exported from the watch and processed on powerful
 
 \subsection{Real-Time Sensing on Android}
 In ``Real-Time Sensing on Android''\cite{paper:realtimesensing}, Yin Yan et al. examined Android’s sensor architecture and whether it is suitable for use in a real-time context.
-They took an in-depth look at the very low-level implementations of the Android |SensorManager|\cite{androiddocs:sensormanager}, including the kernel, HAL\footnote{Hardware Abstraction Layer}, and the |SensorService| (which polls raw sensor data through the HAL).
+They took an in-depth look at the very low-level implementations of the Android |SensorManager|\cite{androiddocs:sensormanager}, including the kernel, HAL\footnote{Hardware Abstraction Layer}, and the |SensorService| \\(which polls raw sensor data through the HAL).
 Their research showed that Android's sensor architecture does not provide predictable sensing.
 It does not have any priority support in sensor data delivery, because all sensor data follows a single path from the kernel to apps.
 Also, the amount of time it takes to deliver sensor data is unpredictable because Android relies heavily on polling and buffering.

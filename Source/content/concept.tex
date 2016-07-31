@@ -25,9 +25,10 @@ The app deployed on the mobile device is responsible for:
 	\item Processing received sensor data
 \end{itemize}
 
-Once started, it sends a sensor data request to connected wearable devices, which contains information about which sensor data it wants to receive and at which interval (see section \ref{sec:implementation:transferringdata:send}).
+After discovering which devices are nearby, it sends a sensor data request to connected wearables, which contains information about which sensor data it wants to receive and at which interval (see section \ref{sec:implementation:transferringdata:send}).
+
 The app then listens for incoming sensor data request responses, which contain the actual sensor data (see section \ref{sec:implementation:transferringdata:receive}).
-This data will be processed depending on the use case.
+This data will be deserialized and processed depending on the use case.
 
 \subsection{Wearable App}
 \label{sec:concept:wearableapp}
@@ -39,7 +40,9 @@ The wearable app on the other side takes care of:
 \end{itemize}
 
 After deployment, it waits for incoming sensor data requests.
-It registers the required sensor listeners and starts monitoring data changes (see section \ref{sec:implementation:monitoringdatachanges}).
-Updated sensor data request responses will be periodically sent to the mobile device until the sensor data request changes.
+It registers the required sensor listeners in Android's sensor framework and starts monitoring data changes (see section \ref{sec:implementation:monitoringdatachanges}).
+
+Updated sensor data will be stored in batches and periodically added to request responses.
+These responses will be serialized and sent to the mobile device until the sensor data request changes (see section \ref{sec:implementation:serializingdata}).
 
 \clearpage
