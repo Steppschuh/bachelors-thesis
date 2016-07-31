@@ -18,6 +18,11 @@ Figure \ref{fig:diagrams:apps} shows what both apps need to be capable of.
 
 \subsection{Mobile App}
 \label{sec:concept:mobileapp}
+\begin{wrapfigure}{r}{0.2\textwidth}
+	\begin{center}
+		\includegraphics[width=0.3\textwidth]{images/app/mobile.png}
+	\end{center}
+\end{wrapfigure}
 The app deployed on the mobile device is responsible for:
 \begin{itemize}[noitemsep]
 	\item Sending sensor data requests
@@ -28,9 +33,14 @@ The app deployed on the mobile device is responsible for:
 Once started, it sends a sensor data request to connected wearable devices, which contains information about which sensor data it wants to receive and at which interval (see section \ref{sec:implementation:transferringdata:send}).
 The app then listens for incoming sensor data request responses, which contain the actual sensor data (see section \ref{sec:implementation:transferringdata:receive}).
 This data will be processed depending on the use case.
-
+\\\\
 \subsection{Wearable App}
 \label{sec:concept:wearableapp}
+\begin{wrapfigure}{r}{0.2\textwidth}
+	\begin{center}
+		\includegraphics[width=0.3\textwidth]{images/app/watch.png}
+	\end{center}
+\end{wrapfigure}
 The wearable app on the other side takes care of:
 \begin{itemize}[noitemsep]
 	\item Handling sensor data requests
@@ -41,13 +51,5 @@ The wearable app on the other side takes care of:
 After deployment, it waits for incoming sensor data requests.
 It registers the required sensor listeners and starts monitoring data changes (see section \ref{sec:implementation:monitoringdatachanges}).
 Updated sensor data request responses will be periodically sent to the mobile device until the sensor data request changes.
-
-\improvement{More detailed app descriptions}
-
-\begin{figure}[H]
-	\includegraphics[width=\linewidth]{diagrams/apps.png}
-	\caption[Caption for apps]{Mobile and Wearable apps}
-	\label{fig:apps}
-\end{figure}
 
 \clearpage
