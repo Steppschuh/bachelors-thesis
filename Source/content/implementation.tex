@@ -337,11 +337,11 @@ private void updateNearbyNodes() {
 }
 \end{lstlisting}
 
+\clearpage
+
 The |nearbyNodes| list now contains all currently connected wearables.
 We can get a display name and an id for each node, which we need to select our message target.
 For simplicity, the following code block sends a message to all nearby nodes:
-
-\clearpage
 
 \begin{lstlisting}[label=sendmessage]
 private void startRequestingSensorData() {
