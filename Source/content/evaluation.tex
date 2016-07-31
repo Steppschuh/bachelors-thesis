@@ -1,87 +1,91 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-In order to measure how performant different implementations are, we created different benchmarks.
+In order to measure how performant our implementations are, we created different benchmarks.
 These helped us to evaluate which parts of our solution require optimization.
-Each benchmark contains the average result of 500 consequtive measurements and has been validated multiple times.
+Each benchmark contains the average result of 500 consecutive measurements and has been validated multiple times.
 
-\subsubsection{Setup}
+\subsection{Setup}
 For the benchmarks, we created a |TimeTracker|\cite{sensordatalogger:timetracker} that is capable of measuring the delay in nanoseconds between events. It also provides convenience functions for merging repetitive measurements to avoid round-off errors.
 
 We measured on our test devices, a Nexus 9 tablet (released November 2014, SDK 24) and a LG G Watch R (released October 2014, SDK 23). Both ran the latest Android version and are a good representation for currently available high-end devices.
 The devices were placed next to each other on a table, with quite a lot of other electronic devices nearby.
 We also altered the distance between the devices but figured out that it had no significant impact on the measurements.
 
-\subsubsection{Data Transmission Delay}
+\subsection{Data Transmission Delay}
 The most important performance indicator is the time it takes between these events: \textit{A sensor has updated values} (on the wearable device) and \textit{Updated sensor values have been received} (on the mobile device). For this benchmark, the measured operations include:
 
 \begin{itemize}[noitemsep]
-	\item Creating |DataBatches|\cite{sensordatalogger:databatch} with the latest sensor data (wearable)
-	\item Serializing a |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} containing that data (wearable)
-	\item Transferring the data using the |MessageApi|\cite{androiddocs:messageapi} (wearable \& mobile)
-	\item Deserializing the |DataRequestResponse| (mobile)
+    \item Creating |DataBatches|\cite{sensordatalogger:databatch} with the latest sensor data (wearable)
+    \item Serializing a |DataRequestResponse|\cite{sensordatalogger:datarequestresponse} containing that data (wearable)
+    \item Transferring the data using the |MessageApi|\cite{androiddocs:messageapi} (wearable \& mobile)
+    \item Deserializing the |DataRequestResponse| (mobile)
 \end{itemize}
 
-In order to reduce the serialization overhead, we collect sensor data in |DataBatches|\cite{sensordatalogger:databatch} before transferring it to a mobile device.
+\clearpage
+
+In order to reduce the serialization overhead, we collect sensor data in \\|DataBatches|\cite{sensordatalogger:databatch} before transferring it to a mobile device.
 This approach drastically improves the \textit{delay per sent byte} ratio, because we have to serialize and deserialize less messages and less meta data.
 However, it also delays the data depending on the batch capacity.
-Just like buffering a stream, this is a trade-off between beeing less efficient or beeing less real-time.
+Just like buffering a stream, this is a trade-off between being less efficient or being less real-time.
 
 For the measurements in table \ref{table:benchmark:transmissiondelay:50ms}, we batched sensor data from the accelerometer for \textbf{50 milliseconds} before transferring it while altering the sensor delay:
 
 \begin{table}[H]
-	\begin{tabular}{rrrl}
-		delay in ns       & bytes             & delay / bytes     				& comment \\ \hline
+    \begin{tabular}{rrrl}
+        delay in ns       & bytes             & delay / bytes                   & comment \\ \hline
 
-		1,266,250,000     & 200               & \textasciitilde6,331,250        & \textasciitilde1 update (|SENSOR_DELAY_NORMAL|) \\
-		1,271,160,000     & 482               & \textasciitilde2,637,261        & \textasciitilde2 updates (|SENSOR_DELAY_UI|) \\
-		1,285,510,000     & 1,056             & \textasciitilde1,217,339        & \textasciitilde6 updates (|SENSOR_DELAY_GAME|) \\
-		1,306,400,000     & 3,599             & \textasciitilde362,989          & \textasciitilde24 updates (|SENSOR_DELAY_FASTEST|) \\
-	\end{tabular}
-	\caption{Transmission delay, 50ms batches}
-	\label{table:benchmark:transmissiondelay:50ms}
+        1,266,250,000     & 200               & \textasciitilde6,331,250        & \textasciitilde1 update (|SENSOR_DELAY_NORMAL|) \\
+        1,271,160,000     & 482               & \textasciitilde2,637,261        & \textasciitilde2 updates (|SENSOR_DELAY_UI|) \\
+        1,285,510,000     & 1,056             & \textasciitilde1,217,339        & \textasciitilde6 updates (|SENSOR_DELAY_GAME|) \\
+        1,306,400,000     & 3,599             & \textasciitilde362,989          & \textasciitilde24 updates (|SENSOR_DELAY_FASTEST|) \\
+    \end{tabular}
+    \caption{Transmission delay, 50ms batches}
+    \label{table:benchmark:transmissiondelay:50ms}
 \end{table}
 
 When using |SENSOR_DELAY_NORMAL|, the sensor reports only about one update during the batching duration.
 This basically results in no improvement at all because we still have to deal with the serialization overhead for each update.
-By collecting more updates in the same time frame (in this case by switching to |SENSOR_DELAY_FASTEST|), we were able to boost the efficency by 94.3\% while only raising the delay by 3.2\%.
+By collecting more updates in the same time frame (in this case by switching to |SENSOR_DELAY_FASTEST|), we were able to reduce the delay per sent byte by 94.3\% while only raising the delay by 3.2\%.
 
 We wanted to improve even further and increased the batching duration to \textbf{500 milliseconds}, as measured in table \ref{table:benchmark:transmissiondelay:500ms}:
 
 \begin{table}[H]
-	\begin{tabular}{rrrl}
-		delay in ns       & bytes             & delay / bytes     				& comment \\ \hline
+    \begin{tabular}{rrrl}
+        delay in ns       & bytes             & delay / bytes                   & comment \\ \hline
 
-		1,329,120,000     & 625               & \textasciitilde2,126,592        & \textasciitilde3 updates (|SENSOR_DELAY_NORMAL|) \\
-		1,331,970,000     & 1,340             & \textasciitilde994,007          & \textasciitilde8 updates (|SENSOR_DELAY_UI|) \\
-		1,373,370,000     & 8,262             & \textasciitilde166,227          & \textasciitilde28 updates (|SENSOR_DELAY_GAME|) \\
-		1,412,810,000     & 16,951            & \textasciitilde83,346           & \textasciitilde118 updates (|SENSOR_DELAY_FASTEST|) \\
-	\end{tabular}
-	\caption{Transmission delay, 500ms batches}
-	\label{table:benchmark:transmissiondelay:500ms}
+        1,329,120,000     & 625               & \textasciitilde2,126,592        & \textasciitilde3 updates (|SENSOR_DELAY_NORMAL|) \\
+        1,331,970,000     & 1,340             & \textasciitilde994,007          & \textasciitilde8 updates (|SENSOR_DELAY_UI|) \\
+        1,373,370,000     & 8,262             & \textasciitilde166,227          & \textasciitilde28 updates (|SENSOR_DELAY_GAME|) \\
+        1,412,810,000     & 16,951            & \textasciitilde83,346           & \textasciitilde118 updates (|SENSOR_DELAY_FASTEST|) \\
+    \end{tabular}
+    \caption{Transmission delay, 500ms batches}
+    \label{table:benchmark:transmissiondelay:500ms}
 \end{table}
 
-Increasing the duration resulted in more updates per transferred |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}.
+\clearpage
+
+Increasing the duration resulted in more updates per transferred \\|DataRequestResponse|\cite{sensordatalogger:datarequestresponse}.
 Compared to the first measurement in table \ref{table:benchmark:transmissiondelay:50ms}, we were able to transfer 84 times more bytes at the cost of only 147 milliseconds.
 
-For some use cases, less frequent data might be sufficient. Instead of altering the reporting delay of the sensor, we can also sent data from multiple sensors simultaneously. Table \ref{table:benchmark:transmissiondelay:multiple} shows how \textbf{multiple, 3-dimensional sensors} perform:
+For some use cases, less frequent data might be sufficient. Instead of altering the reporting delay of the sensor, we can also send data from multiple sensors simultaneously. Table \ref{table:benchmark:transmissiondelay:multiple} shows how \textbf{multiple, 3-dimensional sensors} perform:
 
 \begin{table}[H]
-	\begin{tabular}{rrrl}
-		delay in ns       & bytes             & delay / bytes     				& comment \\ \hline
+    \begin{tabular}{rrrl}
+        delay in ns       & bytes             & delay / bytes                   & comment \\ \hline
 
-		1,452,400,000     & 16,690            & \textasciitilde87,022           & \textasciitilde116 updates,  1 sensor \\
-		1,489,100,000     & 22,819            & \textasciitilde65,257           & \textasciitilde246 updates,  2 sensors \\
-		1,752,420,000     & 60,679            & \textasciitilde28,880           & \textasciitilde512 updates,  4 sensors \\
-		2,842,640,000     & 177,495           & \textasciitilde16,015           & \textasciitilde1504 updates, 8 sensors \\
-	\end{tabular}
-	\caption{Transmission delay, multiple sensors}
-	\label{table:benchmark:transmissiondelay:multiple}
+        1,452,400,000     & 16,690            & \textasciitilde87,022           & \textasciitilde116 updates,  1 sensor \\
+        1,489,100,000     & 22,819            & \textasciitilde65,257           & \textasciitilde246 updates,  2 sensors \\
+        1,752,420,000     & 60,679            & \textasciitilde28,880           & \textasciitilde512 updates,  4 sensors \\
+        2,842,640,000     & 177,495           & \textasciitilde16,015           & \textasciitilde1504 updates, 8 sensors \\
+    \end{tabular}
+    \caption{Transmission delay, multiple sensors}
+    \label{table:benchmark:transmissiondelay:multiple}
 \end{table}
 
 Keeping in mind that this transfer is performed multiple hundreds or thousands times, these efficency improvements sum up and save a lot of computing and battery power on both devices.
 
-\subsubsection{Serialization}
+\subsection{Serialization}
 As mentioned before, serialization and deserialization are responsible for a large part of the processing time.
 It is crucial that this part is optimized, that's why we opted for utilizing established libraries.
 Namely, we decided to use jackson\footnote{https://github.com/FasterXML/jackson} because of its performance advantage compared to other well known libraries like gson\footnote{https://github.com/google/gson}.
@@ -89,12 +93,94 @@ Namely, we decided to use jackson\footnote{https://github.com/FasterXML/jackson}
 There are benchmarks available that compare these JSON libraries, which is why we won't present new measurements here.
 The key take-away is that jackson is faster in handling larger files, while gson should be used for smaller files\footnote{http://blog.takipi.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/}.
 
-\subsubsection{Data Rate}
-asdf
+\subsection{Battery Impact}
+Of course the heavy usage of the Bluetooth sensor and processing power brings along the cost of reduced battery life.
+Because battery power is very limited on mobile devices, we also benchmarked the power consumption of our app and the related system processes.
+Each measurement contains the consumed milliamp hours (mAh) during a one hour period.
 
-\subsubsection{Battery Impact}
-asdf
+We observed the processes with the largest battery impact, the following tables contain the consumption of:
 
-\improvement{Add visualization}
+\begin{itemize}[noitemsep]
+    \item \textbf{Total}: The overall device
+    \item \textbf{System}: Android System related packages
+    \item \textbf{OS}: Android OS related packages
+    \item \textbf{BT}: Bluetooth sensor
+    \item \textbf{Screen}: Device display
+    \item \textbf{App}: Sensor Data Logger package
+\end{itemize}
+
+To get some reference values, we observed the idle state first.
+Mobile and wearable device are connected and only casually used to reply to messages:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{rrrrrr}
+        Total    & System   & OS       & BT       & Screen   & App  \\ \hline
+
+        163      & 27       & 20       & 13       & 32       & 0    \\
+        173      & 30       & 22       & 15       & 52       & 0    \\
+        173      & 34       & 19       & 13       & 39       & 0    \\
+        160      & 27       & 25       & 13       & 40       & 0    \\
+    \end{tabular}
+    \caption{Battery impact, idle (in mAh)}
+    \label{table:benchmark:battery:idle}
+\end{table}
+
+We measured an average total battery drain of 167 mAh per hour.
+Assuming that the average battery capacity of currently available smartphones is \textasciitilde2500 mAh, this is equivalent to 6.68\% of battery life.
+
+The Bluetooth consumption is noticeable because the wearable is connected to the phone and synchronizing notifications, although it is not streaming sensor data.
+
+To benchmark how the app influences the power consumption, we requested 3-dimensional data from the accelerometer and gravity sensor with \\|SENSOR_DELAY_FASTEST| every 50 ms. The measured operations include:
+
+\begin{itemize}[noitemsep]
+    \item Transferring the data using the |MessageApi| (wearable \& mobile)
+    \item Deserializing the |DataRequestResponse| (mobile)
+    \item Processing the |DataBatches| (mobile)
+    \item Rendering the |Data|\cite{sensordatalogger:data} (mobile)
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{rrrrrr}
+        Total    & System   & OS       & BT       & Screen   & App  \\ \hline
+
+        615      & 65       & 97       & 32       & 162      & 226  \\
+        580      & 59       & 99       & 32       & 148      & 239  \\
+        593      & 67       & 91       & 34       & 161      & 226  \\
+        630      & 71       & 103      & 32       & 151      & 219  \\
+    \end{tabular}
+    \caption{Battery impact, with processing and rendering (in mAh)}
+    \label{table:benchmark:battery:screen}
+\end{table}
+
+The average total battery drain has increased by a factor of 3.6 to 605 mAh per hour.
+One can see that all observed processes consumed at least twice as much battery.
+As expected, the app itself is responsible for the largest battery impact with an average of 228 mAh.
+
+However, a huge amount of power was required for the processing and rendering steps, which may be not required in every use case.
+Also, we forced the screen to be turned on at 20\% brightness, which can also be avoided.
+
+\clearpage
+
+For the following measurements we excluded the processing and rendering steps and did not force the screen to be on:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{rrrrrr}
+        Total    & System   & OS       & BT       & Screen   & App  \\ \hline
+
+        331      & 60       & 88       & 34       & 41       & 57   \\
+        318      & 59       & 92       & 30       & 38       & 64   \\
+        330      & 53       & 94       & 33       & 32       & 63   \\
+        325      & 57       & 92       & 33       & 40       & 59   \\
+    \end{tabular}
+    \caption{Battery impact, without processing and rendering (in mAh)}
+    \label{table:benchmark:battery:noscreen}
+\end{table}
+
+Although all processes still require more power compared to the idle state, the average total battery drain has only increased by a factor of 1.9 to 326 mAh (or 12.69\% of battery life) per hour.
+The |Data| processing and rendering steps were responsible for 73\% of the apps battery drain.
+Using this implementation, continuous streaming of sensor data would be possible for well over 7 hours.
 
 \clearpage

@@ -24,6 +24,7 @@
 \usepackage{xargs}
 \usepackage{enumitem}
 \usepackage{listings}
+\usepackage{wrapfig}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage[pdftex, colorlinks, linktocpage, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
 \usepackage[linesnumbered]{algorithm2e}
@@ -126,7 +127,7 @@
 	\addcontentsline{toc}{section}{Bibliography}
 	\bibliographystyle{babunsrt-fl}
 	\bibliography{projektbib}
-	\clearpage	
+	\clearpage
 	
 	%%%% Appendix
 	\input{content/appendix.tex}
@@ -139,6 +140,6 @@
 	%\lipsum[1]\improvement{This really needs to be improved!\newline\newline What was I thinking?!}
 	%\thiswillnotshow{This is hidden since option `disable' is chosen!}
 	%\improvement[inline]{The following section needs to be rewritten!}
-	\listoftodos[Notes]
+	%\listoftodos[Notes]
 	
 \end{document}

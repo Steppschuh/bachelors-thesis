@@ -1,14 +1,22 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-To achieve our project goal of a seamless authentication using nothing but the sensors from a user's devices, we need to transfer huge amounts of data every second.
+Our project goal was the seamless authentication using nothing but the sensors from a user's devices.
+To achieve this, we needed to handle huge amounts of sensor data from wearable devices, but without draining the device batteries.
+This required a way to transfer the data to mobile devices, as they have higher battery capacities and are capable of processing the data in real-time.
+
+We decided to develop our project for the Android platform because of its open nature.
+It provides access to the sensor data and all the functionalities that we needed without any limitations.
+
 Our solution provides a performant jet battery friendly way of exchanging messages with data payloads between wearables and mobile devices.
 It allowed us to develop a product that fulfilled all our project requirements.
+
+We evaluated the performance, efficiency and battery impact of our implementation.
+Our benchmarks showed that we were able to stream 3-dimensional data from 2 different motion sensors simultaneously with \textasciitilde230 Hz while only consuming 326 mAh per hour.
+By using optimized data batches, we reduced the transmission delay per sent byte by 94\% while only raising the total delay by 3.2\%.
 
 We also implemented our solution in an open source app\footnote{\href{https://github.com/Steppschuh/Sensor-Data-Logger}{https://github.com/Steppschuh/Sensor-Data-Logger}} that is available for free through the Google Play Store\footnote{\href{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}{https://play.google.com/store/apps/details?id=net.steppschuh.sensordatalogger}}.
 It is capable of visualizing sensor data from the current mobile or a connected wearable device in real-time.
 This app can be used as a reference for related research and for demonstration purposes.
-
-\improvement{Fill a page, wrap up everything}
 
 \clearpage

@@ -2,25 +2,22 @@
 \label{sec:futurework}
 
 \subsection{Open Research Questions}
-What could other researches work on?
+Although not suggested by Google, low-level implementations for accessing the raw sensor data and custom Bluetooth sockets for transferring it could improve Android's real-time sensing capabilities by a lot.
+
+Android uses Linux as the base Kernel, hardware sensors are registered as input devices and can be accessed through POSIX\footnote{Portable Operating System Interface} system calls. Values are stored in circular buffers, even if there is no process to consume the data.
+Because of this, applications could avoid all the overhead added by the abstraction layers in the sensor framework and its event queues.
+
+Similar to the event queues, message queues limit the performance of the data transfer between devices when using the Wearable APIs.
+Although the existing implementations provide stability and enhanced battery life, used data structures like buffers, batches and queues all increase the delay between messages.
+
+We are confident that custom implementations could achieve much higher data rates with only a friction of the delay that we experienced.
+
+\clearpage
 
 \subsection{Extensions}
 
-\subsubsection{Channel API}
-In our implementation, we utilized the |MessageApi|\cite{androiddocs:messageapi} because it is recommended for smaller messages.
-We also used it for other project related purposes, so we sticked to it for consistency.
-However, we figured out that there might be an even more performant solution:
-
-The |ChannelApi|\cite{androiddocs:channelapi} is also part of the |WearableApi|\cite{androiddocs:wearable}, accessible through the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
-It should be used to transfer large files, just like the already mentioned |DataApi|\cite{androiddocs:dataapi}.
-In contrast to the |DataApi|, it doesn't synchronize |Assets|\cite{androiddocs:asset} accross the devices.
-Instead, it creates a bidirectional channel that the sending and receiving node may read or write to.
-Data can be exchanged using byte streams, which makes the |ChannelApi| very suitable for transferring streamed content like music - or even sensor data.
-
-Unfortunately we weren't able to evaluate whether implementing the |ChannelApi| would increase our performance yet.
-
 \subsubsection{Compression}
-In order to decrease the amount of data transferred with each |DataRequestResponse|\cite{sensordatalogger:datarequestresponse}, we can try to reduce the overhead created by meta data.
+In order to decrease the amount of data transferred with each \\|DataRequestResponse|\cite{sensordatalogger:datarequestresponse}, we can try to reduce the overhead created by meta data.
 This overhead can only be reduced to a certain amount, though.
 
 Each sensor data update is an array of values, and can have up to 9 dimensions (depending on the sensor).
@@ -29,5 +26,18 @@ In our use case, we didn't need values with that high precision.
 Instead, rounded values would be sufficient for our algorithms.
 
 By switching the data type of our data arrays from floats to shorts (16-bit signed two's complement integers), we could save about 50\% of transferred bytes. However, it still has to be evaluated whether the loss of precision and the processing power required for converting the data justifies this saving.
+
+\subsubsection{Channel API}
+In our implementation, we utilized the |MessageApi|\cite{androiddocs:messageapi} because it is recommended for smaller messages.
+We also used it for other project related purposes, so we sticked to it for consistency.
+However, we figured out that there might be an even more performant solution:
+
+The |ChannelApi|\cite{androiddocs:channelapi} is also part of the |WearableApi|\cite{androiddocs:wearable}, accessible through the |GoogleApiClient|\cite{androiddocs:googleapiclient}.
+It should be used to transfer large files, just like the already mentioned |DataApi|\cite{androiddocs:dataapi}.
+In contrast to the |DataApi|, it doesn't synchronize |Assets|\cite{androiddocs:asset} across the devices.
+Instead, it creates a bidirectional channel that the sending and receiving node may read or write to.
+Data can be exchanged using byte streams, which makes the |ChannelApi| very suitable for transferring streamed content like music - or even sensor data.
+
+Unfortunately we weren't able to evaluate whether implementing the \\|ChannelApi| would increase our performance yet.
 
 \clearpage
