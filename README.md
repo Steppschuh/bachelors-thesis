@@ -6,6 +6,8 @@ Wearable devices such as smartwatches or activity trackers with embedded sensors
 
 In the course of this work, the availability of APIs on different wearables and how likely they can be used to transfer and process sensor data in real-time has been evaluated. We have presented functional implementations for transferring data between wearables and mobile devices powered by the Android platform. Performance, efficiency and battery impact have been analyzed using benchmarks.
 
+![Screencast](https://raw.githubusercontent.com/Steppschuh/Sensor-Data-Logger/master/Media/Screencasts/sensor_data_bw_long_500.gif)
+
 ### Conclusion
 Our project goal was the seamless authentication using nothing but the sensors from a user's devices.
 To achieve this, we needed to handle huge amounts of sensor data from wearable devices, but without draining the device batteries. This required a way to transfer the data to mobile devices, as they have higher battery capacities and are capable of processing the data in real-time.
